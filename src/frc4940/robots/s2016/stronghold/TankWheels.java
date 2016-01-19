@@ -3,10 +3,10 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class TankWheels {
 
-RobotDrive Wheels = new RobotDrive(Map.LEFTBACKWHEEL,Map.LEFTFRONTWHEEL,Map.RIGHTBACKWHEEL,Map.RIGHTFRONTWHEEL);
+	RobotDrive Wheels = new RobotDrive(Map.LEFTBACKWHEEL,Map.LEFTFRONTWHEEL,Map.RIGHTBACKWHEEL,Map.RIGHTFRONTWHEEL);
 	
 	public void DriveRobot(double _Speed,double _Turn){
-		TankWheels.drive(_Speed, _Turn);	
+		Wheels.drive(_Speed, _Turn);
 	}
 }
 

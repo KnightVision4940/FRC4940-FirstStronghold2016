@@ -1,5 +1,5 @@
 package frc4940.robots.s2016.stronghold;
-import edu.wpi.first.wpilibj.VictorSP
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class Arm {
 	
