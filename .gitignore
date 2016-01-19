@@ -1,9 +1,3 @@
-# WPILib
-build/
-dist/
-sysProps.xml
-workbench.xmi
-
 # IDE
 *.ipr
 *.iml
