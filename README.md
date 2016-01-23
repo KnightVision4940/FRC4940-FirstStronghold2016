@@ -6,6 +6,7 @@
   
 ###Badges
   [![Travis](https://img.shields.io/travis/KnightVision4940/FRC4940-FirstStronghold2016.svg?style=flat-square)](https://travis-ci.com/KnightVision4940/FRC4940-FirstStronghold2016)
+ 
   [![forthebadge](http://forthebadge.com/images/badges/designed-in-ms-paint.svg)](http://forthebadge.com)
   
 ###Java Cheatsheet
