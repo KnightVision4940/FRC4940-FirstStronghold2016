@@ -5,7 +5,7 @@
   This year's game is [FIRST Stronghold](http://www.firstinspires.org/sites/default/files/uploads/resource_library/frc/first-stronghold-game-onepage.pdf).
   
 ###Badges
-  [![Travis](https://img.shields.io/travis/KnightVision4940/FRC4940-FirstStronghold2016.svg?style=flat-square)](https://travis-ci.com/KnightVision4940/FRC4940-FirstStronghold2016)
+  [![Build Status](https://travis-ci.com/KnightVision4940/FRC4940-FirstStronghold2016.svg?token=1ERtQy3mLgrZPiGFeQze&branch=master)](https://travis-ci.com/KnightVision4940/FRC4940-FirstStronghold2016)
  
   [![forthebadge](http://forthebadge.com/images/badges/designed-in-ms-paint.svg)](http://forthebadge.com)
   
