@@ -1,7 +1,5 @@
 sudo: false
 language: java
-before_install:
-  cp -a /home/travis/build/KnightVision4940/FRC4940-FirstStronghold2016/src /home/travis/build/KnightVision4940/FRC4940-FirstStronghold2016/src
 install: git clone https://github.com/KnightVision4940/wpilib-mirror.git ~/wpilib
 script: 
  - "ant jar"
