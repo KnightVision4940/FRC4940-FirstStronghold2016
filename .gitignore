@@ -9,6 +9,7 @@ tmp/
 .project
 /.idea
 .classpath
+bin/
 
 # Toast/GradleRIO
 run/
