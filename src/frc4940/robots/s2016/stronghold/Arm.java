@@ -2,6 +2,9 @@ package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.VictorSP;
 
 public class Arm {
+
+	private final int LOWERARM = 5;
+	private final int UPPERARM = 6;
 	
 	VictorSP LowerArm = new VictorSP(Map.LOWERARM);
 	
