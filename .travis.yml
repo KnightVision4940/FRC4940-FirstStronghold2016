@@ -1,7 +1,4 @@
 sudo: false
 language: java
-install: 
- - git clone https://github.com/KnightVision4940/wpilib-mirror.git ~/wpilib
- - ant test
-jdk: oraclejdk8
+install: git clone https://github.com/KnightVision4940/wpilib-mirror.git ~/wpilib
 script: ant jar
