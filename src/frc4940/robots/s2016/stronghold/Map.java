@@ -1,6 +1,6 @@
 package frc4940.robots.s2016.stronghold;
 
-public static class Map{
+public class Map{
 
 	public static final int LOWERARM = 5;
 	public static final int UPPERARM = 6;
