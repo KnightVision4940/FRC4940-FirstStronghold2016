@@ -1,10 +1,13 @@
 package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 
 public class IO {
+	
+	static Joystick xbox = new Joystick(0);
 
-	DigitalInput LowerArm = new DigitalInput(Map.LOWERARM);
-	DigitalInput UpperArm = new DigitalInput(Map.UPPERARM);
+	static DigitalInput LowerArm = new DigitalInput(Map.LOWERARM);
+	static DigitalInput UpperArm = new DigitalInput(Map.UPPERARM);
 	
 	public static boolean GetLowerArm(){
 		return LowerArm.get();

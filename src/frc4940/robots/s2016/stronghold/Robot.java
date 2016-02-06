@@ -30,32 +30,14 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	//gets the selected button from the SmartDashboard, and selects the associated autonomous
-    	selectedAuto = (String) chooser.getSelected();
-    	//Prints selected autonomous to dashboard
-		System.out.println("Auto selected: " + selectedAuto);
+    	
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	/**
-    	 * A switch-case tree is just a fancier if/else tree.
-    	 * It is used when comparing all the possible values of a single variable.
-    	 * You can use this, or just use if/else statements; switch is nicer, but if/else is familiar
-    	 * //////////////////////////////////////////////////////////////////////////////////////
-    	 * The below selects the correct autonomous mode based on what the selected autonomous is.
-    	**/
-    	switch(selectedAuto) {
-	    	case customAuto:
-	    		//Put custom auto code here   
-	            break;
-	    	case defaultAuto:
-	    		default:
-	    			//Put default auto code here
-	            break;
-    	}
+    	
     }
 
     /**
