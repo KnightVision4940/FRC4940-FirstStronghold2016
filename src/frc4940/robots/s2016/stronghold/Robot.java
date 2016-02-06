@@ -10,27 +10,14 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 /**
  * Main Robot Class
  */
-public class Robot extends IterativeRobot {
-	//Strings storing the **NAMES** of the autonomous modes
-    final String defaultAuto = "Default";
-    final String customAuto = "My Auto";
-    //String storing the name of the selected autonomous mode.
-    String selectedAuto;
-    //Object allowing the option of choosing autonomous in the SmartDashboard
-    SendableChooser chooser;
+public class Robot extends IterativeRobot { 
+   
 	
     /**
      * Initiation Code
      */
     public void robotInit() {
-    	//Constructs chooser object
-        chooser = new SendableChooser();
-        //Adds the defualt Autonomous mode
-        chooser.addDefault("Default Auto", defaultAuto);
-        //Adds another autonomous mode to be potentially chosen
-        chooser.addObject("My Auto", customAuto);
-        //lmao idk what this is for yet
-        SmartDashboard.putData("Auto choices", chooser);
+ 
     }
     
 	/**

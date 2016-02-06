@@ -1,6 +1,6 @@
 package frc4940.robots.s2016.stronghold;
 
-public class Map{
+final public class Map{
 
 	public static final int LOWERARM = 5;
 	public static final int UPPERARM = 6;
@@ -8,5 +8,11 @@ public class Map{
 	public static final int RIGHTFRONTWHEEL = 2;
 	public static final int	LEFTBACKWHEEL = 3;
 	public static final int	RIGHTBACKWHEEL = 4;
-	
+
+	//Strings storing the **NAMES** of the autonomous modes
+    public class Auto{
+    	public static final String defaultAuto = "Default";
+    	public static final String customAuto = "My First Auto";
+    	public static final String customAuto2 = "Second Auto";
+    }
 }

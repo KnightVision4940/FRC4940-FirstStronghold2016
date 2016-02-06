@@ -6,16 +6,21 @@ public class IO {
 	DigitalInput LowerArm = new DigitalInput(Map.LOWERARM);
 	DigitalInput UpperArm = new DigitalInput(Map.UPPERARM);
 	
-	public boolean GetLowerArm(){
+	public static boolean GetLowerArm(){
 		return LowerArm.get();
 	}
 	
-	public boolean GetUpperArm(){
+	public static boolean GetUpperArm(){
 		return UpperArm.get();
 	}
 	
+	public static double getXboxLeftX(){
+		return xbox.getRawAxis(0);
+	}
 	
-	
+	public static double getXboxLeftY(){
+		return xbox.getRawAxis(1);
+	}
 	
 	
 	
