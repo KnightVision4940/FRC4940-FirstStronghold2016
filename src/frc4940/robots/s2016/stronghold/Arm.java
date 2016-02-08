@@ -4,9 +4,10 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class Arm {
 	
+	private final int LOWERARM = 5;
+	private final int UPPERARM = 6;
 	
-	
-	VictorSP LowerArm = new VictorSP(Map.LOWERARM);
+	VictorSP LowerArm = new VictorSP(LOWERARM);
 	
 	public double GetLowerArm(){
 		return LowerArm.get();
@@ -16,7 +17,7 @@ public class Arm {
 		LowerArm.set(_Speed);
 	}
 	
-	VictorSP UpperArm = new VictorSP(Map.UPPERARM);
+	VictorSP UpperArm = new VictorSP(UPPERARM);
 	public double GetUpperArm(){
 		return UpperArm.get();
 	}

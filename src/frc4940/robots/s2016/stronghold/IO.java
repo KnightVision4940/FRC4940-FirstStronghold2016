@@ -24,8 +24,5 @@ public class IO {
 	public static double getXboxLeftY(){
 		return xbox.getRawAxis(1);
 	}
-	
-	
-	
 }
 
