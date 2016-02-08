@@ -2,6 +2,7 @@
 *.ipr
 *.iml
 *.iws
+*.class
 out/
 tmp/
 .settings/
@@ -9,7 +10,6 @@ tmp/
 .project
 /.idea
 .classpath
-.class
 
 # Toast/GradleRIO
 run/
