@@ -1,12 +1,12 @@
 package frc4940.robots.s2016.stronghold;
-import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.Encoder;
 
 public class Arm {
 	
 	
 	
-	TalonSRX LowerArm = new TalonSRX(Map.LOWERARM);
+	VictorSP LowerArm = new VictorSP(Map.LOWERARM);
 	
 	public double GetLowerArm(){
 		return LowerArm.get();
@@ -16,7 +16,7 @@ public class Arm {
 		LowerArm.set(_Speed);
 	}
 	
-	TalonSRX UpperArm = new TalonSRX(Map.UPPERARM);
+	VictorSP UpperArm = new VictorSP(Map.UPPERARM);
 	public double GetUpperArm(){
 		return UpperArm.get();
 	}

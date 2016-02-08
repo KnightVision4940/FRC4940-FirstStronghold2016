@@ -3,7 +3,7 @@ package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoChooser {
+public class AutoChooser{
 	 //String storing the name of the selected autonomous mode.
     String selectedAuto;
     //Object allowing the option of choosing autonomous in the SmartDashboard

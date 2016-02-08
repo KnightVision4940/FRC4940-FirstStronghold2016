@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
  * Main Robot Class
  */
 public class Robot extends IterativeRobot { 
-   
+	TankWheels chassis = new TankWheels();
+	TeleOp teleop = new TeleOp();
 	
     /**
      * Initiation Code
@@ -30,7 +31,9 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	
+    	chassis.DriveRobot(1, 0);
+    	Timer.delay(5);
+    	chassis.DriveRobot(0, 0);
     }
 
     /**
@@ -44,7 +47,7 @@ public class Robot extends IterativeRobot {
      * TeleOp Code
      */
     public void teleopPeriodic() {
-        
+        teleop.run();
     }
     
     /**
