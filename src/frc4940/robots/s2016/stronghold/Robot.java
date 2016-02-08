@@ -15,7 +15,6 @@ public class Robot extends IterativeRobot {
     String selectedAuto;
     //Object allowing the option of choosing autonomous in the SmartDashboard
     SendableChooser chooser;
-	TankWheels chassis = new TankWheels();
 	TeleOp teleop = new TeleOp();
 	
 	final String defaultAuto = "Default";
