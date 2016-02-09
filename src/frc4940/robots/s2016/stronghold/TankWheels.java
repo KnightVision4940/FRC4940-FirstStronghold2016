@@ -3,13 +3,10 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class TankWheels {
 	
-	private final int LEFTFRONTWHEEL = 3;
-	private final int RIGHTFRONTWHEEL = 6;
-	private final int LEFTBACKWHEEL = 1;
-	private final int RIGHTBACKWHEEL = 0;
+	//Initiates RobotDrive Object
+	RobotDrive Wheels = new RobotDrive(Map.PWM.LEFTBACKWHEEL,Map.PWM.LEFTFRONTWHEEL,Map.PWM.RIGHTBACKWHEEL,Map.PWM.RIGHTFRONTWHEEL);
 	
-	RobotDrive Wheels = new RobotDrive(LEFTBACKWHEEL,LEFTFRONTWHEEL,RIGHTBACKWHEEL,RIGHTFRONTWHEEL);
-	
+	//Method used to drive robot.
 	public void DriveRobot(double _Speed,double _Turn){
 		Wheels.drive(_Speed, _Turn);
 	}
