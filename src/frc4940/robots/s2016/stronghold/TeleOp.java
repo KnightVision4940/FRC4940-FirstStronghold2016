@@ -4,9 +4,6 @@ public class TeleOp {
 	
 	//controls the drive train
 	TankWheels chassis = new TankWheels(); 
-	//controls the Arm
-	Arm arm = new Arm();
-	
 	//Method is run every 30ms during TeleOp period
 	public void run(){
 		
