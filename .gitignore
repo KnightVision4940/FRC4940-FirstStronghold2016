@@ -3,6 +3,7 @@
 *.iml
 *.iws
 *.class
+bin/
 out/
 tmp/
 .settings/
