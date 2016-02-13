@@ -11,13 +11,13 @@ public class Map {
 		public static final int ARM_ = 5;
 		
 		//TankWheels.java
-		public static final int LEFTFRONTWHEEL = 3;
-		public static final int RIGHTFRONTWHEEL = 6;
-		public static final int LEFTBACKWHEEL = 1;
-		public static final int RIGHTBACKWHEEL = 0;
+		public static final int LEFTFRONTWHEEL = 0;
+		public static final int RIGHTFRONTWHEEL = 1;
+		public static final int LEFTBACKWHEEL = 2;
+		public static final int RIGHTBACKWHEEL = 3;
 	
 	}
-	
+
 	public class Auto{
 		
 	}

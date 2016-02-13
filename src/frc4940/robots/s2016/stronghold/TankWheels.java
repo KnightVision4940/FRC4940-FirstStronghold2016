@@ -6,7 +6,7 @@ public class TankWheels {
 	RobotDrive Wheels = new RobotDrive(Map.PWM.LEFTBACKWHEEL,Map.PWM.LEFTFRONTWHEEL,Map.PWM.RIGHTBACKWHEEL,Map.PWM.RIGHTFRONTWHEEL);
 	
 	//Method used to drive robot.
-	public void DriveRobot(double _Speed,double _Turn){
+	public void _driveRobot(double _Speed,double _Turn){
 		Wheels.drive(_Speed, _Turn);
 	}
 }

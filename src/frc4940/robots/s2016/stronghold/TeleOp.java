@@ -1,6 +1,6 @@
 package frc4940.robots.s2016.stronghold;
 
-public class TeleOp {
+public class TeleOp{
 	
 	//controls the drive train
 	TankWheels chassis = new TankWheels(); 
@@ -10,7 +10,7 @@ public class TeleOp {
 	//Method is run every 30ms during TeleOp period
 	public void run(){
 		
-		chassis.DriveRobot(IO.getXboxTrig(), IO.getXboxLeftX());
+		chassis._driveRobot(IO.getXboxTrig(), IO.getXboxLeftX());
 		
 		//limit
 		if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){

@@ -14,10 +14,4 @@ public class Arm {
 		__Arm.set(_Speed);
 	}
 	
-	Encoder Enc = new Encoder(0,1,false,Encoder.EncodingType.k4X);
-	
-	public int getEncoder(){
-		return Enc.get();
-	}
-	
 }
