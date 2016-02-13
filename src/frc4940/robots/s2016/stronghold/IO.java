@@ -14,12 +14,35 @@ public class IO {
 		return -xbox.getRawAxis(1);
 	}
 	
-	public static double getXboxTrig(){
-		return (xbox.getRawAxis(2)-xbox.getRawAxis(3));
+	public static double getXboxRightX(){
+		return xbox.getRawAxis(4);
 	}
 	
+	public static double getXboxRightY(){
+		return -xbox.getRawAxis(5);
+	}
 	
-	private DigitalInput upperArmLimit = new DigitalInput(Map.Limit.UPPERARMLIMIT);
+	public static double getXboxTrig(){
+		return (xbox.getRawAxis(3)-xbox.getRawAxis(2));
+	}
+	
+	public static boolean getXboxAButton(){
+		return xbox.getRawButton(1);
+	}		
+	
+	public static boolean getXboxBButton(){
+		return xbox.getRawButton(2);
+	}
+	
+	public static boolean getXboxXButton(){
+		return xbox.getRawButton(3);
+	}
+	
+	public static boolean getXboxYButton(){
+		return xbox.getRawButton(4);
+	}
+	
+	static DigitalInput upperArmLimit = new DigitalInput(Map.Limit.UPPERARMLIMIT);
 	
 	public boolean getArmUpperLimit(){
 		return upperArmLimit.get();

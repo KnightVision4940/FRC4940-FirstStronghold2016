@@ -2,9 +2,6 @@ package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class TankWheels {
-	
-	
-	
 	//Initiates RobotDrive Object
 	RobotDrive Wheels = new RobotDrive(Map.PWM.LEFTBACKWHEEL,Map.PWM.LEFTFRONTWHEEL,Map.PWM.RIGHTBACKWHEEL,Map.PWM.RIGHTFRONTWHEEL);
 	
