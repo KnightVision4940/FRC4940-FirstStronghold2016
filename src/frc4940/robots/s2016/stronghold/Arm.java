@@ -4,24 +4,19 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class Arm {
 		
-	VictorSP LowerArm = new VictorSP(Map.PWM.LOWERARM);
+	VictorSP Arm = new VictorSP(Map.PWM.ARM_);
 	
-	public double GetLowerArm(){
-		return LowerArm.get();
+	public double GetArm(){
+		return Arm.get();
 	}
 
-	public void SetLowerArm(double _Speed){
-		LowerArm.set(_Speed);
+	public void SetArm(double _Speed){
+		Arm.set(_Speed);
 	}
 	
-	VictorSP UpperArm = new VictorSP(Map.PWM.UPPERARM);
-	public double GetUpperArm(){
-		return UpperArm.get();
-	}
 
-	public void SetUpperArm(double _Speed){
-		UpperArm.set(_Speed);
-	}
+
+
 	
 	Encoder Enc = new Encoder(0,1,false,Encoder.EncodingType.k4X);
 	
