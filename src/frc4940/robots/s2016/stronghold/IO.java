@@ -44,7 +44,7 @@ public class IO {
 	
 	static DigitalInput upperArmLimit = new DigitalInput(Map.Limit.UPPERARMLIMIT);
 	
-	public boolean getArmUpperLimit(){
+	public static boolean getArmUpperLimit(){
 		return upperArmLimit.get();
 	}
 }

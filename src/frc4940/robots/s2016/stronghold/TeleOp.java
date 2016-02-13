@@ -12,9 +12,15 @@ public class TeleOp {
 		
 		chassis.DriveRobot(IO.getXboxTrig(), IO.getXboxLeftX());
 		
+		//limit
+		if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
+			_arm.SetArm(0);
+		}else{
+			_arm.SetArm(IO.getXboxRightY());
+		}
 		
-		_arm.SetArm(IO.getXboxRightY());
 		
+	
 	}
 	
 }
