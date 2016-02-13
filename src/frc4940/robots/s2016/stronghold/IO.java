@@ -1,4 +1,5 @@
 package frc4940.robots.s2016.stronghold;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class IO {
@@ -15,6 +16,13 @@ public class IO {
 	
 	public static double getXboxTrig(){
 		return (xbox.getRawAxis(2)-xbox.getRawAxis(3));
+	}
+	
+	
+	private DigitalInput upperArmLimit = new DigitalInput(Map.Limit.UPPERARMLIMIT);
+	
+	public boolean getArmUpperLimit(){
+		return upperArmLimit.get();
 	}
 }
 
