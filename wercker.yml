@@ -21,9 +21,8 @@ build:
     # http://devcenter.wercker.com/docs/steps/index.html
   steps:
     - script:
-        name: echo
-        code: |
-          sudo: false
-            language: java
-            install: git clone https://github.com/KnightVision4940/wpilib-mirror.git ~/wpilib
-            script: ant jar
+        sudo: false
+        language: java
+        install: git clone https://github.com/KnightVision4940/wpilib-mirror.git ~/wpilib
+        script: ant jar
+
