@@ -7,7 +7,10 @@ public class IO {
 	static Joystick xbox = new Joystick(0);
 	
 	public static double getXboxLeftX(){
-		return xbox.getRawAxis(0);
+		if (-xbox.getRawAxis(0) < 0.1 && -xbox.getRawAxis(0) > -0.1)
+			return 0;
+		else
+			return -xbox.getRawAxis(0);
 	}
 	
 	public static double getXboxLeftY(){
@@ -19,11 +22,22 @@ public class IO {
 	}
 	
 	public static double getXboxRightY(){
-		return -xbox.getRawAxis(5);
+		if (-xbox.getRawAxis(5) < 0.1 && -xbox.getRawAxis(5) > -0.1)
+			return 0;
+		else
+			return -xbox.getRawAxis(5);
 	}
 	
 	public static double getXboxTrig(){
 		return (xbox.getRawAxis(3)-xbox.getRawAxis(2));
+	}
+	
+	public static double getXboxRightTrig(){
+		return xbox.getRawAxis(3);
+	}
+	
+	public static double getXboxLeftTrig(){
+		return xbox.getRawAxis(2);
 	}
 	
 	public static boolean getXboxAButton(){

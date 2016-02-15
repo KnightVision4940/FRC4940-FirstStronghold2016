@@ -8,22 +8,36 @@ public class TeleOp{
 	Arm _arm = new Arm();
 	
 	public void init(){
-		_arm.initArmPosition();
+		//_arm.initEncoder();
 	}
 	
 	//Method is run every 30ms during TeleOp period
 	public void run(){
 		
-		chassis._driveRobot(IO.getXboxTrig(), IO.getXboxLeftX());
+		chassis._driveRobot(-IO.getXboxTrig(), -IO.getXboxLeftX());
 		
-		//limit
-		if(IO.getArmUpperLimit() && IO.getXboxRightY() > 0){
+		//Arm Control
+		if((IO.getArmUpperLimit() || _arm.getArmPosition() == Map.Encoder.ENC_LIMIT_SWITCH) && IO.getXboxRightY() > 0 ){
 			_arm.SetArm(0);
-		}else{
-			_arm.SetArm(IO.getXboxRightY());
+		}else if(_arm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 100) && IO.getXboxRightY() > 0){
+			_arm.SetArm(0.15*IO.getXboxRightY());
+		}else if(_arm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 200) && IO.getXboxRightY() > 0){
+			_arm.SetArm(0.45*IO.getXboxRightY());
+		} else {
+			_arm.SetArm(0.85*IO.getXboxRightY());
+		} 
+		
+		if(_arm.getArmPosition() >= Map.Encoder.ENC_SCALE && IO.getXboxRightY() < 0){
+			_arm.SetArm(0);
 		}
 		
+		if(IO.getArmUpperLimit())
+			System.out.print("||ON||");
+		else
+			System.out.print("//OFF//");
+		//System.out.println("ARM" + _arm.GetArm());
 		_arm.getArmPosition();
+		System.out.println("  ");
 	}
 	
 }

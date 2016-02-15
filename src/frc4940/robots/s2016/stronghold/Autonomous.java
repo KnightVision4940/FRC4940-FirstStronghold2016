@@ -19,7 +19,7 @@ public class Autonomous {
 			Timer.delay(5);
 			chasis._driveRobot(0, 0);
 		}
-		if (mode == Auto.Portcullis){    //Not completed 
+		if (mode == Auto.PORTCULLIS){    //Not completed 
 			chasis._driveRobot(0.5, 0);
 			Timer.delay(3);
 			chasis._driveRobot(0, 0);
@@ -57,10 +57,34 @@ public class Autonomous {
 			Timer.delay(3);
 			chasis._driveRobot(0.5, 0);
 			Timer.delay(4);
-			chasis._driveRobot(0,0);
-		
+			chasis._driveRobot(0,0);		
 		}
-		
+		if (mode == Auto.SALLY_PORT){
+			
+		}
+		if (mode == Auto.DRAWBRIDGE){
+			
+		}
+		if (mode == Auto.CHEVAL_DE_FRISE){
+			arm.SetArm(0.9); //move arms up
+			chasis._driveRobot(0.6, 0);
+			Timer.delay(0.75);
+			arm.SetArm(0);
+			Timer.delay(2.25);
+			chasis._driveRobot(0, 0);
+			while(!IO.getArmUpperLimit()){
+				arm.SetArm(-0.6);
+			}
+			arm.SetArm(0);
+			Timer.delay(1);
+			arm.SetArm(1);
+			Timer.delay(1.8);
+			arm.SetArm(0);
+			chasis._driveRobot(0.8, 0);
+			Timer.delay(5);
+			chasis._driveRobot(0, 0);
+			
+		}
 	}
 
 }

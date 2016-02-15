@@ -4,7 +4,6 @@ package frc4940.robots.s2016.stronghold;
  * Imported Packages
  */
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
@@ -46,9 +45,9 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	Autonomous.Run(0);
     	//gets the selected button from the SmartDashboard, and selects the associated autonomous
-    	//selectedAuto = (String) chooser.getSelected();
+    	selectedAuto = (String) chooser.getSelected();
     	//Prints selected autonomous to dashboard
-		//System.out.println("Auto selected: " + selectedAuto);
+		System.out.println("Auto selected: " + selectedAuto);
     }
 
     /**
@@ -62,15 +61,15 @@ public class Robot extends IterativeRobot {
     	 * //////////////////////////////////////////////////////////////////////////////////////
     	 * The below selects the correct autonomous mode based on what the selected autonomous is.
     	**/
-    	//switch(selectedAuto) {
-	    //	case customAuto:
-	    //		//Put custom auto code here   
-	    //        break;
-	    //	case defaultAuto:
-	    //		default:s
-	    //			//Put default auto code here
-	    //        break;
-    	//}
+    	switch(selectedAuto) {
+	    	case customAuto:
+	    		//Put custom auto code here   
+	            break;
+	    	case defaultAuto:
+	    		default:
+	    			//Put default auto code here
+	            break;
+    	}
     }
 
     /**
