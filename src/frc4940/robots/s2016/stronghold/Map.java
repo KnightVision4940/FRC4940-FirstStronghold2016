@@ -6,10 +6,7 @@ public class Map {
 		public static final int UPPERARMLIMIT = 0;
 	}
 	
-	public class PWM{
-		//Arm.java
-		public static final int ARM_ = 5;
-		
+	public class PWM{		
 		//TankWheels.java
 		public static final int LEFTFRONTWHEEL = 0;
 		public static final int RIGHTFRONTWHEEL = 1;
@@ -17,7 +14,12 @@ public class Map {
 		public static final int RIGHTBACKWHEEL = 2;
 	
 	}
-
+	
+	public class CAN{
+		//Arm.java
+		public static final int ARM_ = 1;
+	}
+	
 	public class Auto{
 		public static final int DRIVE_STRAIGHT = 0; //Drive Straight.....
 		public static final int LOW_BAR = 1;
