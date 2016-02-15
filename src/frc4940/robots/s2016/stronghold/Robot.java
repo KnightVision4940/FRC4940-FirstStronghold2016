@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
 	    //		//Put custom auto code here   
 	    //        break;
 	    //	case defaultAuto:
-	    //		default:
+	    //		default:s
 	    //			//Put default auto code here
 	    //        break;
     	//}
@@ -76,6 +76,9 @@ public class Robot extends IterativeRobot {
     /**
      * TeleOp Code
      */
+    public void teleopInit() {
+    	teleop.init();
+    }
     public void teleopPeriodic() {
         teleop.run();
     }

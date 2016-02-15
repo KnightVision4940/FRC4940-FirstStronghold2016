@@ -20,4 +20,8 @@ public class Arm {
 		return __Arm.getEncPosition();
 	}
 	
+	public void initArmPosition(){
+		__Arm.setEncPosition(0);
+	}
+	
 }

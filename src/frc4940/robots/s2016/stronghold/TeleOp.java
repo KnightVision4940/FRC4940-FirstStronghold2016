@@ -7,6 +7,10 @@ public class TeleOp{
 	//controls the arm
 	Arm _arm = new Arm();
 	
+	public void init(){
+		_arm.initArmPosition();
+	}
+	
 	//Method is run every 30ms during TeleOp period
 	public void run(){
 		
