@@ -23,5 +23,4 @@ public class Arm {
 	public void initArmPosition(){
 		__Arm.setEncPosition(0);
 	}
-	
 }
