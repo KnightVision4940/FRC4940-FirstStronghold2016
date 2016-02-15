@@ -19,6 +19,17 @@ public class Map {
 	}
 
 	public class Auto{
+		public static final int DRIVE_STRAIGHT = 0; //Drive Straight.....
+		public static final int LOW_BAR = 1;
+		public static final int Portcullis = 2;
+		public static final int MOAT = 3;
+		public static final int RAMPARTS = 4;
+		public static final int ROCK_WALL = 5;
+		public static final int ROUGH_TERRAIN = 6;
+		public static final int SALLY_PORT = 7; //NOT COMPLETED 
+		public static final int DRAWBRIDGE = 8; //NOT COMPLETED
+		public static final int CHEVAL_DE_FRISE = 9; //NOT COMPLETED
+		
 		
 	}
 	
