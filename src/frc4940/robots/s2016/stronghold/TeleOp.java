@@ -28,7 +28,7 @@ public class TeleOp{
 			_arm.SetArm(0.85*IO.getXboxRightY());
 		} 
 		
-		if(_arm.getArmPosition() >= Map.Encoder.ENC_SCALE && IO.getXboxRightY() < 0){
+		if(_arm.getArmPosition() >= Map.Encoder.ENC_HEIGHT && IO.getXboxRightY() < 0){
 			_arm.SetArm(0);
 		}
 		
@@ -39,6 +39,22 @@ public class TeleOp{
 		//System.out.println("ARM" + _arm.GetArm());
 		_arm.getArmPosition();
 		System.out.println("  ");
+	}
+	
+	public void test(){
+		/**
+		 * Testing a smoother, gradual slow-down of arm as it approaches limit switch
+		 */
+		if(IO.getArmUpperLimit() && IO.getXboxRightY() > 0){
+			_arm.SetArm(0);
+		}else if(_arm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 200) && IO.getXboxRightY() > 0){
+			_arm.SetArm(.85*(Math.sqrt(((Math.abs((Map.Encoder.ENC_LIMIT_SWITCH + 200) - Map.Encoder.ENC_LIMIT_SWITCH))/200))));
+			/**
+			 * y = .85 * sqrt(x/200)
+			 */
+		}else{
+			_arm.SetArm(.85*IO.getXboxRightY());
+		}
 	}
 	
 }
