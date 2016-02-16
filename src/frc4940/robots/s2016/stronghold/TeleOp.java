@@ -7,6 +7,7 @@ public class TeleOp{
 	//controls the arm
 	Arm _arm = new Arm();
 	
+	//Method is run once when TeleOp is first created.
 	public void init(){
 		//_arm.initEncoder();
 	}
