@@ -5,10 +5,13 @@ public class TeleOp{
 	//controls the drive train
 	TankWheels chassis = new TankWheels(); 
 	//controls the arm
-	Arm _arm = new Arm();
+	Arm backarm = new Arm(Map.CAN.ARM_); 
+	Arm forearm = new Arm(Map.CAN.SECOND_ARM);
+	//Servo Motor Testing
+	ServoMotor serv = new ServoMotor();
 	
 	public void init(){
-		//_arm.initEncoder();
+		//backarm.initEncoder();
 	}
 	
 	//Method is run every 30ms during TeleOp period
@@ -17,27 +20,48 @@ public class TeleOp{
 		chassis._driveRobot(-IO.getXboxTrig(), -IO.getXboxLeftX());
 		
 		//Arm Control
-		if((IO.getArmUpperLimit() || _arm.getArmPosition() == Map.Encoder.ENC_LIMIT_SWITCH) && IO.getXboxRightY() > 0 ){
-			_arm.SetArm(0);
-		}else if(_arm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 100) && IO.getXboxRightY() > 0){
-			_arm.SetArm(0.15*IO.getXboxRightY());
-		}else if(_arm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 200) && IO.getXboxRightY() > 0){
-			_arm.SetArm(0.45*IO.getXboxRightY());
-		} else {
-			_arm.SetArm(0.85*IO.getXboxRightY());
+		if((IO.getArmUpperLimit() || backarm.getArmPosition() == Map.Encoder.ENC_LIMIT_SWITCH) && IO.getXboxRightY() > 0 ){
+			backarm.SetArm(0);
+		}else if(backarm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 100) && IO.getXboxRightY() > 0){
+			backarm.SetArm(0.15*IO.getXboxRightY());
+		}else if(backarm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 200) && IO.getXboxRightY() > 0){
+			backarm.SetArm(0.45*IO.getXboxRightY());
+		}else {
+			backarm.SetArm(0.85*IO.getXboxRightY());
 		} 
 		
-		if(_arm.getArmPosition() >= Map.Encoder.ENC_SCALE && IO.getXboxRightY() < 0){
-			_arm.SetArm(0);
+		if(backarm.getArmPosition() >= Map.Encoder.ENC_SCALE && IO.getXboxRightY() < 0){
+			backarm.SetArm(0);
 		}
 		
 		if(IO.getArmUpperLimit())
 			System.out.print("||ON||");
 		else
 			System.out.print("//OFF//");
-		//System.out.println("ARM" + _arm.GetArm());
-		_arm.getArmPosition();
-		System.out.println("  ");
+		
+		System.out.println("ARM=" + backarm.getArmPosition());
+		
+		//Test code for the small HiRes Servo motor
+		//A and B button
+		if(IO.getXboxAButton()){
+			serv.run(0);
+		} else if (IO.getXboxBButton()){
+			serv.run(1);
+		}
+		
+	}
+	
+	public void test(){
+		if(IO.getArmUpperLimit() && IO.getXboxRightY() > 0){
+			backarm.SetArm(0);
+		} else {
+			backarm.SetArm(0.85*IO.getXboxRightY());
+		}
+		if(IO.getXboxStart()){
+			backarm.initEncoder();
+			System.out.print("||CALIBRATED||");
+		}
+		System.out.println(backarm.getArmPosition());
 	}
 	
 }

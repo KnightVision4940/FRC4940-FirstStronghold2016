@@ -6,9 +6,22 @@ import frc4940.robots.s2016.stronghold.Map.Auto;
 public class Autonomous {
 
 	static TankWheels chasis = new TankWheels();
-	static Arm arm = new Arm();
+	static Arm arm = new Arm(Map.CAN.ARM_);
+	static Timer time_ = new Timer();
+	static boolean isDone = false;
+	static int armPos;
 	
-	public static void Run(int mode){
+	public static boolean getIsDone(){
+		return isDone;
+	}
+	
+	static void init(){
+		time_.reset();
+		isDone = false;
+		armPos = arm.getArmPosition();
+	}
+	
+	static void Run(int mode){
 		if (mode == Auto.DRIVE_STRAIGHT){
 			chasis._driveRobot(0.5, 0);
 			Timer.delay(4.5);
@@ -19,16 +32,27 @@ public class Autonomous {
 			Timer.delay(5);
 			chasis._driveRobot(0, 0);
 		}
-		if (mode == Auto.PORTCULLIS){    //Not completed 
-			chasis._driveRobot(0.5, 0);
-			Timer.delay(3);
+		if (mode == Auto.PORTCULLIS){    //Not completed
+			
+			chasis._driveRobot(0.7, 0);
+			Timer.delay(2);
 			chasis._driveRobot(0, 0);
-			arm.SetArm(0.5);
-			Timer.delay(3.5);
+			
+			time_.start();
+			
+			while((time_.get() < 3.5 && !IO.getArmUpperLimit()) || arm.getArmPosition() < armPos){
+				arm.SetArm(-0.9);
+			}
 			arm.SetArm(0);
-			chasis._driveRobot(0.4, 0);
-			Timer.delay(3);
+			
+			time_.stop();
+			time_.reset();
+			
+			chasis._driveRobot(0.7, 0);
+			Timer.delay(4);
 			chasis._driveRobot(0, 0);
+			
+			isDone = true;
 		}
 		if (mode == Auto.MOAT){
 			chasis._driveRobot(0.8, 0);
@@ -84,6 +108,13 @@ public class Autonomous {
 			Timer.delay(5);
 			chasis._driveRobot(0, 0);
 			
+		}
+		if (mode == Auto.TEST_AUTO){
+			if (!IO.getArmUpperLimit()){
+				arm.SetArm(0.45);
+			} else {
+				arm.SetArm(0);
+			}
 		}
 	}
 

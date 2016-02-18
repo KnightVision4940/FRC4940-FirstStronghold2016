@@ -9,8 +9,4 @@ public class TankWheels {
 	public void _driveRobot(double _Speed,double _Turn){
 		Wheels.drive(_Speed, _Turn);
 	}
-	
-	public void tankDriveRobot(double _left, double _right){
-		Wheels.tankDrive(_left, _right, true);
-	}
 }

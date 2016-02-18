@@ -4,7 +4,9 @@ package frc4940.robots.s2016.stronghold;
  * Imported Packages
  */
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import frc4940.robots.s2016.stronghold.Map.Auto;
 
 /**
  * Main Robot Class
@@ -15,6 +17,8 @@ public class Robot extends IterativeRobot {
     //Object allowing the option of choosing autonomous in the SmartDashboard
     SendableChooser chooser;
 	TeleOp teleop = new TeleOp();
+	Arm __arm__ = new Arm(1);
+	Timer time = new Timer();
 	
 	final String defaultAuto = "Default";
 	final String customAuto = "My First Auto";
@@ -43,11 +47,27 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	Autonomous.Run(0);
+    	//Autonomous.init();
     	//gets the selected button from the SmartDashboard, and selects the associated autonomous
     	selectedAuto = (String) chooser.getSelected();
     	//Prints selected autonomous to dashboard
 		System.out.println("Auto selected: " + selectedAuto);
+		time.reset();
+		
+		int armPosi = __arm__.getArmPosition();	
+		while (!IO.getArmUpperLimit() && __arm__.getArmPosition() > armPosi-525){
+			__arm__.SetArm(0.45);
+		}
+		__arm__.SetArm(0);
+
+		time.start();
+		
+		while (time.get() < 2){
+			teleop.chassis._driveRobot(-0.5, 0);
+		}
+		teleop.chassis._driveRobot(0.0, 0);
+		//Autonomous.Run(Map.Auto.TEST_AUTO);
+		
     }
 
     /**

@@ -4,28 +4,16 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 
 public class Arm {
-		
-	CANTalon __Arm = new CANTalon(Map.CAN.ARM_);
-	Encoder armEnc = new Encoder(1, 2, true, EncodingType.k4X);
+	CANTalon __Arm;
+	Arm(int CANPort){
+		  __Arm = new CANTalon(CANPort);
+	}
 	
 	private int encCount;
 	private double encRate;
 	
 	public void initEncoder(){
 		__Arm.setEncPosition(0);
-	}
-	
-	
-	public int getCount(){
-		encCount = armEnc.get();
-		System.out.print("C/" + encCount + " ");
-		return encCount;
-	}
-	
-	public double getRate(){
-		encRate = armEnc.getRate();
-		System.out.print("R/" + encRate + " ");
-		return encRate;
 	}
 	
 	public double GetArm(){

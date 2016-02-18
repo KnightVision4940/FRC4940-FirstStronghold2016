@@ -56,6 +56,10 @@ public class IO {
 		return xbox.getRawButton(4);
 	}
 	
+	public static boolean getXboxStart(){
+		return xbox.getRawButton(8);
+	}
+	
 	static DigitalInput upperArmLimit = new DigitalInput(Map.Limit.UPPERARMLIMIT);
 	
 	public static boolean getArmUpperLimit(){

@@ -12,12 +12,13 @@ public class Map {
 		public static final int RIGHTFRONTWHEEL = 1;
 		public static final int LEFTBACKWHEEL =3;
 		public static final int RIGHTBACKWHEEL = 2;
-	
+		public static final int WINCH = 4;
 	}
 	
 	public class CAN{
 		//Arm.java
 		public static final int ARM_ = 1;
+		public static final int SECOND_ARM = 2;
 	}
 	
 	public class Auto{  
@@ -31,6 +32,8 @@ public class Map {
 		public static final int SALLY_PORT = 7; //NOT COMPLETED 
 		public static final int DRAWBRIDGE = 8; //NOT COMPLETED
 		public static final int CHEVAL_DE_FRISE = 9; //NOT COMPLETED
+		
+		public static final int TEST_AUTO = 999;
 	}
 	
 	public class Encoder{
