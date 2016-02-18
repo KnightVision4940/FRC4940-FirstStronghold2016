@@ -93,21 +93,24 @@ public class Robot extends IterativeRobot {
     }
 
     /**
-     * TeleOp Code
+     * TeleOp Initialization Code
      */
     public void teleopInit() {
     	teleop.init();
     }
+    /**
+     * TeleOp Code
+     */
     public void teleopPeriodic() {
         teleop.run();
     }
     
     /**
      * Test Code
-     * Enter any throw-away or testing code in here
+     * Enter any throw-away or test code in here
      */
     public void testPeriodic() {
-    
+    	teleop.test();
     }
     
 }

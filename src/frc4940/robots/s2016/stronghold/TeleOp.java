@@ -10,6 +10,7 @@ public class TeleOp{
 	//Servo Motor Testing
 	ServoMotor serv = new ServoMotor();
 	
+	//Method is run once when TeleOp is first created.
 	public void init(){
 		//backarm.initEncoder();
 	}

@@ -15,22 +15,18 @@ public class Arm {
 	public void initEncoder(){
 		__Arm.setEncPosition(0);
 	}
-	
+
 	public double GetArm(){
 		return __Arm.get();
 	}
-
+	
+	//sets a velocty for the arm
 	public void SetArm(double _Speed){
 		__Arm.set(_Speed);
 	}
 	
+	//gets the current position of the arm from the encoder
 	public int getArmPosition(){
-		System.out.print(__Arm.getEncPosition());
-		System.out.print("\n");
 		return __Arm.getEncPosition();
-	}
-	
-	public void test(){
-		
 	}
 }

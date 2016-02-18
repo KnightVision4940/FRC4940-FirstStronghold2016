@@ -7,6 +7,6 @@ public class TankWheels {
 	
 	//Method used to drive robot.
 	public void _driveRobot(double _Speed,double _Turn){
-		Wheels.drive(_Speed, _Turn);
+		Wheels.drive(_Speed, _Turn, true);
 	}
 }
