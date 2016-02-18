@@ -1,5 +1,7 @@
 package frc4940.robots.s2016.stronghold;
 
+import frc4940.robots.s2016.stronghold.Map.Encoder;
+
 public class TeleOp{
 	
 	//controls the drive train
@@ -9,6 +11,8 @@ public class TeleOp{
 	Arm forearm = new Arm(Map.CAN.SECOND_ARM);
 	//Servo Motor Testing
 	ServoMotor serv = new ServoMotor();
+	//Stores current arm position
+	private int currentArmPos;
 	
 	//Method is run once when TeleOp is first created.
 	public void init(){
@@ -52,17 +56,24 @@ public class TeleOp{
 		
 	}
 	
-	public void test(){
-		if(IO.getArmUpperLimit() && IO.getXboxRightY() > 0){
-			backarm.SetArm(0);
-		} else {
-			backarm.SetArm(0.85*IO.getXboxRightY());
+	public void calibrateArmPosition(){
+		//sets the arm to the limit switch
+		while(!IO.getArmUpperLimit()){
+			backarm.SetArm(0.5);
 		}
-		if(IO.getXboxStart()){
-			backarm.initEncoder();
-			System.out.print("||CALIBRATED||");
+		backarm.SetArm(0);
+		
+		//resets encoder at limit switch to 0
+		backarm.initEncoder();
+		//sets the limit switch constant to current value (SHOULD be 0)
+		Map.set(Encoder.ENC_LIMIT_SWITCH, backarm.getArmPosition());
+		
+		//moves the arm to 600 units above the limit switch(default auto position)
+		while(backarm.getArmPosition() < Encoder.ENC_LIMIT_SWITCH+600){
+			backarm.SetArm(-0.3);
 		}
-		System.out.println(backarm.getArmPosition());
+		System.out.println("ARM POSITION SUCCESSFULLY RESET | " + backarm.getArmPosition());
+		backarm.SetArm(0);
 	}
 	
 }

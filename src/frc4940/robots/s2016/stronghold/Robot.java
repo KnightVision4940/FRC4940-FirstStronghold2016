@@ -107,10 +107,10 @@ public class Robot extends IterativeRobot {
     
     /**
      * Test Code
-     * Enter any throw-away or test code in here
+     * Currently used to calibrate the arm's position
      */
-    public void testPeriodic() {
-    	teleop.test();
+    public void Init() {
+    	teleop.calibrateArmPosition();
     }
     
 }

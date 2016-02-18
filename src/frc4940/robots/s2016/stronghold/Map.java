@@ -2,6 +2,10 @@ package frc4940.robots.s2016.stronghold;
 
 public class Map {
 	
+	public static void set(int _variable, int _value){
+		_variable = _value;
+	}
+	
 	public class Limit{
 		public static final int UPPERARMLIMIT = 0;
 	}
