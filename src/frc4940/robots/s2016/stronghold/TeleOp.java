@@ -7,12 +7,10 @@ public class TeleOp{
 	//controls the drive train
 	TankWheels chassis = new TankWheels(); 
 	//controls the arm
-	Arm backarm = new Arm(Map.CAN.ARM_); 
-	Arm forearm = new Arm(Map.CAN.SECOND_ARM);
+	Arm backarm = new Arm(Map.CAN.ARM_);		//Primary, base arm
+	Arm forearm = new Arm(Map.CAN.SECOND_ARM);	//Secondary arm, stores winch
 	//Servo Motor Testing
 	ServoMotor serv = new ServoMotor();
-	//Stores current arm position
-	private int currentArmPos;
 	
 	//Method is run once when TeleOp is first created.
 	public void init(){
@@ -22,17 +20,17 @@ public class TeleOp{
 	//Method is run every 30ms during TeleOp period
 	public void run(){
 		
-		chassis._driveRobot(-IO.getXboxTrig(), -IO.getXboxLeftX());
+		chassis._driveRobotSQ(-IO.getXboxTrig(), -IO.getXboxLeftX());
 		
 		//Arm Control
 		if((IO.getArmUpperLimit() || backarm.getArmPosition() == Map.Encoder.ENC_LIMIT_SWITCH) && IO.getXboxRightY() > 0 ){
 			backarm.SetArm(0);
 		}else if(backarm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 100) && IO.getXboxRightY() > 0){
-			backarm.SetArm(0.15*IO.getXboxRightY());
+			backarm.SetArm(0.38*IO.getXboxRightY());
 		}else if(backarm.getArmPosition() <= (Map.Encoder.ENC_LIMIT_SWITCH + 200) && IO.getXboxRightY() > 0){
-			backarm.SetArm(0.45*IO.getXboxRightY());
+			backarm.SetArm(0.67*IO.getXboxRightY());
 		}else {
-			backarm.SetArm(0.85*IO.getXboxRightY());
+			backarm.SetArm(0.92*IO.getXboxRightY());
 		} 
 		
 		if(backarm.getArmPosition() >= Map.Encoder.ENC_SCALE && IO.getXboxRightY() < 0){
@@ -56,6 +54,7 @@ public class TeleOp{
 		
 	}
 	
+	//Method is run when test mode is enabled
 	public void calibrateArmPosition(){
 		//sets the arm to the limit switch
 		while(!IO.getArmUpperLimit()){

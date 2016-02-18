@@ -20,9 +20,21 @@ public class Arm {
 		return __Arm.get();
 	}
 	
-	//sets a velocty for the arm
+	//sets a velocity for the arm
 	public void SetArm(double _Speed){
-		__Arm.set(_Speed);
+		//__Arm.set(_Speed);
+		/**
+		 * Squares the inputs;
+		 * this allows for lower sensitivities at lower speeds,
+		 * but still allows for maximum speed to be reached.
+		 */
+		if (_Speed >= 0){
+			__Arm.set(_Speed * _Speed);
+		} else if (_Speed < 0){
+			__Arm.set(-(_Speed * _Speed));
+		} else {
+			__Arm.set(0);
+		}
 	}
 	
 	//gets the current position of the arm from the encoder
