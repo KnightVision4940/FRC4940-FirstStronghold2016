@@ -8,17 +8,9 @@ public class Autonomous {
 	static TankWheels chasis = new TankWheels();
 	static Arm arm = new Arm(Map.CAN.ARM_);
 	static Timer time_ = new Timer();
-	static boolean isDone = false;
-	static int armPos;
-	
-	public static boolean getIsDone(){
-		return isDone;
-	}
 	
 	static void init(){
 		time_.reset();
-		isDone = false;
-		armPos = arm.getArmPosition();
 	}
 	
 	static void Run(int mode){
@@ -26,13 +18,13 @@ public class Autonomous {
 			chasis._driveRobot(0.5, 0);
 			Timer.delay(4.5);
 			chasis._driveRobot(0, 0);
-		}
+		} 
 		if (mode == Auto.LOW_BAR){
 			chasis._driveRobot(0.6, 0);
 			Timer.delay(5);
 			chasis._driveRobot(0, 0);
 		}
-		if (mode == Auto.PORTCULLIS){    //Not completed
+		if (mode == Auto.PORTCULLIS){    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 			
 			chasis._driveRobot(0.7, 0);
 			Timer.delay(2);
@@ -40,7 +32,7 @@ public class Autonomous {
 			
 			time_.start();
 			
-			while((time_.get() < 3.5 && !IO.getArmUpperLimit()) || arm.getArmPosition() < armPos){
+			while((time_.get() < 3.5 && !IO.getArmUpperLimit()) || arm.getArmPosition() < 4){
 				arm.SetArm(-0.9);
 			}
 			arm.SetArm(0);
@@ -51,8 +43,6 @@ public class Autonomous {
 			chasis._driveRobot(0.7, 0);
 			Timer.delay(4);
 			chasis._driveRobot(0, 0);
-			
-			isDone = true;
 		}
 		if (mode == Auto.MOAT){
 			chasis._driveRobot(0.8, 0);

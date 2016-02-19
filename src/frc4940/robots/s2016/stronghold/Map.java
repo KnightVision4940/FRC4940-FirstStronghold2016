@@ -46,4 +46,11 @@ public class Map {
 		public static final int ENC_LIMIT_SWITCH = -375;
 	}
 	
+	public class Misc{
+		public static final double PI = 3.14159265359;
+		public static final double MAX_LENGTH = 1;		  //CHANGE
+		public static final double MAX_HEIGHT = 1;		  //CHANGE
+		public static final double MAX_DIST_ANGLE = 37.5; //CHANGE
+	}
+	
 }

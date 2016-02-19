@@ -103,6 +103,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         teleop.run();
+    	//teleop.testEnc();
     }
     
     /**
