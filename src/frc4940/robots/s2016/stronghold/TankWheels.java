@@ -17,7 +17,7 @@ public class TankWheels {
 		if(_Speed >= 0){
 			Wheels.drive(Math.pow(_Speed, 2), _Turn);
 		} else if (_Speed <=0){
-			Wheels.drive(Math.pow(_Speed, 2), _Turn);
+			Wheels.drive(-Math.pow(_Speed, 2), _Turn);
 		} else {
 			Wheels.drive(0, 0);
 		}

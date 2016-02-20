@@ -1,46 +1,9 @@
 package frc4940.robots.s2016.stronghold;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.Encoder;
 
-public class Arm {
-	CANTalon __Arm;
-	Arm(int CANPort){
-		  __Arm = new CANTalon(CANPort);
-	}
+public class BoundBox {
 	
-	private int encCount;
-	private double encRate;
-	
-	//Sets Encoder to 0 at current position
-	public void initEncoder(){
-		__Arm.setEncPosition(0);
-	}
-
-	public double GetArm(){
-		return __Arm.get();
-	}
-	
-	//sets a velocity for the arm
-	public void SetArm(double _Speed){
-		/**
-		 * Squares the inputs;
-		 * this allows for lower sensitivities at lower speeds,
-		 * but still allows for maximum speed to be reached.
-		 */
-		if (_Speed >= 0){
-			__Arm.set(_Speed * _Speed);
-		} else if (_Speed < 0){
-			__Arm.set(-(_Speed * _Speed));
-		} else {
-			__Arm.set(0);
-		}
-	}
-	
-	//gets the current position of the arm from the encoder
-	public int getArmPosition(){
-		return __Arm.getEncPosition();
-	}
+	Arm rotArm = new Arm(1);
+	Arm ballscrew = new Arm(2);
 	
 	/**
 	 * ARM MAX LIMIT ALGORITHMS
@@ -57,12 +20,18 @@ public class Arm {
 		 */
 		if(getZone() == 1){
 			if(IO.getXboxRightY() == 0){
-				SetArm(0);
-			}
-			else if(IO.getXboxRightY() < 0){
-				__Arm.set(0.92 * IO.getXboxRightY());
-			} else if(IO.getXboxRightY() > 0){
-				
+				rotArm.SetArm(0);
+				ballscrew.SetArm(0);
+			} else if(IO.getXboxRightY() < 0){ //moving down
+				rotArm.SetArm(0.92 * IO.getXboxRightY());
+			} else if(IO.getXboxRightY() > 0){ //moving up [restricted]
+				rotArm.SetArm(0.92 * IO.getXboxRightY());
+				//retracts the arm 
+				if (rotArm.GetArm() > 0.8){
+					ballscrew.SetArm(-1);
+				} else {
+					ballscrew.SetArm(rotArm.GetArm() * -1.25);
+				}
 			}
 		}
 	}
@@ -73,7 +42,7 @@ public class Arm {
 		 * Make sure arm's encoder is calibrated.
 		 * Accurate to within 0.25 degrees of the actual reading (0.27% error)
 		 */
-		return (((int)(getArmPosition()/1000.0 +.5) * 1000) - 12000) / 1755.56; //EXAMPLE CODE; PLEASE UPDATE
+		return (((int)(rotArm.getArmPosition()/1000.0 +.5) * 1000) - 12000) / 1755.56; //EXAMPLE CODE; PLEASE UPDATE
 	}
 	
 	private double getMaxLength(){

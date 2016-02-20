@@ -40,6 +40,7 @@ public class TeleOp{
 		chassis._driveRobotSQ(-IO.getXboxTrig(), -IO.getXboxLeftX());
 		
 		
+		
 		/**
 		 * TEMPORARY CODE
 		 * Controls movement of new arm
@@ -112,6 +113,10 @@ public class TeleOp{
 			forearm.SetArm(-1);
 		} else {
 			forearm.SetArm(0);
+		}
+		
+		if(IO.getXboxStart()){
+			backarm.initEncoder();
 		}
 		
 		
