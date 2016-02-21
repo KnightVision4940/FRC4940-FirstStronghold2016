@@ -12,29 +12,15 @@ import frc4940.robots.s2016.stronghold.Map.Auto;
  * Main Robot Class
  */
 public class Robot extends IterativeRobot { 
-	 //String storing the name of the selected autonomous mode.
-    String selectedAuto;
-    //Object allowing the option of choosing autonomous in the SmartDashboard
-    SendableChooser chooser;
-	TeleOp teleop = new TeleOp();
-	Arm __arm__ = new Arm(1);
-	Timer time = new Timer();
-	
-	final String defaultAuto = "Default";
-	final String customAuto = "My First Auto";
+	TeleOp teleop;
+	Autonomous auto;
 	
     /**
      * Initiation Code
      */
     public void robotInit() {
-    	//Constructs chooser object
-        chooser = new SendableChooser();
-        //Adds the defualt Autonomous mode
-        chooser.addDefault("Default Auto", defaultAuto);
-        //Adds another autonomous mode to be potentially chosen
-        chooser.addObject("My Auto", customAuto);
-        //lmao idk what this is for yet
-        SmartDashboard.putData("Auto choices", chooser);
+    	teleop = new TeleOp();
+    	auto = new Autonomous();
     }
     
 	/**
@@ -47,13 +33,8 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	//Autonomous.init();
-    	//gets the selected button from the SmartDashboard, and selects the associated autonomous
-    	selectedAuto = (String) chooser.getSelected();
-    	//Prints selected autonomous to dashboard
-		System.out.println("Auto selected: " + selectedAuto);
-		time.reset();
-		
+    	auto.init();
+    	/**		
 		int armPosi = __arm__.getArmPosition();	
 		while (!IO.getArmUpperLimit() && __arm__.getArmPosition() > armPosi-525){
 			__arm__.SetArm(0.45);
@@ -67,6 +48,8 @@ public class Robot extends IterativeRobot {
 		}
 		teleop.chassis._driveRobot(0.0, 0);
 		//Autonomous.Run(Map.Auto.TEST_AUTO);
+		 * 
+		 */
 		
     }
 
@@ -74,29 +57,14 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	/**
-    	 * A switch-case tree is just a fancier if/else tree.
-    	 * It is used when comparing all the possible values of a single variable.
-    	 * You can use this, or just use if/else statements; switch is nicer, but if/else is familiar
-    	 * //////////////////////////////////////////////////////////////////////////////////////
-    	 * The below selects the correct autonomous mode based on what the selected autonomous is.
-    	**/
-    	switch(selectedAuto) {
-	    	case customAuto:
-	    		//Put custom auto code here   
-	            break;
-	    	case defaultAuto:
-	    		default:
-	    			//Put default auto code here
-	            break;
-    	}
+    	auto.Run();
     }
 
     /**
      * TeleOp Initialization Code
      */
     public void teleopInit() {
-    	teleop.init();
+    	//There seems to be nothing here . . . 
     }
     /**
      * TeleOp Code
@@ -110,8 +78,11 @@ public class Robot extends IterativeRobot {
      * Test Code
      * Currently used to calibrate the arm's position
      */
-    public void Init() {
+    public void testInit() {
     	teleop.calibrateArmPosition();
+    }
+    public void testPeriodic(){
+    	teleop.getArmAngle();
     }
     
 }

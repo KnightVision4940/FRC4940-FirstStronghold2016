@@ -8,6 +8,7 @@ public class Map {
 	
 	public class Limit{
 		public static final int UPPERARMLIMIT = 0;
+		public static final int BALLSCREW_INNER_LIMIT = 1;
 	}
 	
 	public class PWM{		
@@ -16,7 +17,6 @@ public class Map {
 		public static final int RIGHTFRONTWHEEL = 1;
 		public static final int LEFTBACKWHEEL =3;
 		public static final int RIGHTBACKWHEEL = 2;
-		public static final int WINCH = 4;
 	}
 	
 	public class CAN{
@@ -44,6 +44,7 @@ public class Map {
 		public static final int ENC_SCALE = 800;
 		public static final int ENC_HEIGHT = 500;
 		public static final int ENC_LIMIT_SWITCH = -375;
+		public static final int ENC_BALLSCREW_MAX_IN = 0;
 	}
 	
 	public class BoundBox{
