@@ -53,134 +53,75 @@ public class Autonomous {
 		switch(selectedAuto) {
 	    	case Map.Auto.LOW_BAR:
 		    	default:
-		    		System.out.println("get low ;p");   
+		    		IO.chassis._driveRobot(0.6, 0);
+					Timer.delay(5);
+					IO.chassis._driveRobot(0, 0);
 		            break;
 	    	case Map.Auto.PORTCULLIS:
-	    		
-	    			System.out.println("Child-friendly Guillotine");
+	    		IO.chassis._driveRobot(0.7, 0);
+				Timer.delay(2);
+				IO.chassis._driveRobot(0, 0);
+				
+				IO.arm.SetArm(-0.9);
+				Timer.delay(2);
+				IO.arm.SetArm(0);
+				
+				IO.chassis._driveRobot(0.7, 0);
+				Timer.delay(4);
+				IO.chassis._driveRobot(0, 0);
 	            break;
 	    	case Map.Auto.CHEVAL_DE_FRISE:
-	    		
-    			System.out.println("Spade of Potatoes");
-            break;
+	    		IO.arm.SetArm(0.9); //move arms up
+				IO.chassis._driveRobot(0.6, 0);
+				Timer.delay(0.75);
+				IO.arm.SetArm(0);
+				Timer.delay(2.25);
+				IO.chassis._driveRobot(0, 0);
+				while(!IO.getArmUpperLimit()){
+					IO.arm.SetArm(-0.6);
+				}
+				IO.arm.SetArm(0);
+				Timer.delay(1);
+				IO.arm.SetArm(1);
+				Timer.delay(1.8);
+				IO.arm.SetArm(0);
+				IO.chassis._driveRobot(0.8, 0);
+				Timer.delay(5);
+				IO.chassis._driveRobot(0, 0);
+    			break;
 	    	case Map.Auto.RAMPARTS:
-	    		
-    			System.out.println("Let's please talk about Rampart");
-            break;
+	    		IO.chassis._driveRobot(0.75, 0);
+				Timer.delay(4.5);
+				IO.chassis._driveRobot(0, 0);
+				Timer.delay(0.1);
+				IO.chassis._driveRobot(-0.5, 0);
+				Timer.delay(2);
+				IO.chassis._driveRobot(0, 0);
+    			break;
 	    	case Map.Auto.MOAT:
-	    		
-    			System.out.println("RICK AND MOATY");
-            break;
+	    		IO.chassis._driveRobot(0.8, 0);
+				Timer.delay(4);
+				IO.chassis._driveRobot(0, 0);
+    			
+				break;
 	    	case Map.Auto.DRAWBRIDGE:
 	    		
     			System.out.println("Draw me a bridge");
-            break;
+    			break;
 	    	case Map.Auto.SALLY_PORT:
 	    		
     			System.out.println("Sassy Sally");
-            break;
+    			break;
 	    	case Map.Auto.ROCK_WALL:
-	    		
-    			System.out.println("I'M ROCK SOLID");
-            break;
+				IO.chassis._driveRobot(0.5, 0);
+				Timer.delay(5);
+				IO.chassis._driveRobot(0,0);
+				break;
 	    	case Map.Auto.ROUGH_TERRAIN:
-	    		
-    			System.out.println("rough 'round the edges ;)");
+	    		IO.chassis._driveRobot(0.8, 0);
+				Timer.delay(4);
+				IO.chassis._driveRobot(0, 0);
             break;
 		}
-		/*
-		if (mode == Auto.DRIVE_STRAIGHT){
-			chasis._driveRobot(0.5, 0);
-			Timer.delay(4.5);
-			chasis._driveRobot(0, 0);
-		} 
-		if (mode == Auto.LOW_BAR){
-			chasis._driveRobot(0.6, 0);
-			Timer.delay(5);
-			chasis._driveRobot(0, 0);
-		}
-		if (mode == Auto.PORTCULLIS){ 
-			
-			chasis._driveRobot(0.7, 0);
-			Timer.delay(2);
-			chasis._driveRobot(0, 0);
-			
-			time_.start();
-			
-			while((time_.get() < 3.5 && !IO.getArmUpperLimit()) || arm.getArmPosition() < 4){
-				arm.SetArm(-0.9);
-			}
-			arm.SetArm(0);
-			
-			time_.stop();
-			time_.reset();
-			
-			chasis._driveRobot(0.7, 0);
-			Timer.delay(4);
-			chasis._driveRobot(0, 0);
-		}
-		if (mode == Auto.MOAT){
-			chasis._driveRobot(0.8, 0);
-			Timer.delay(4);
-			chasis._driveRobot(0.5, 0);
-			Timer.delay(4);
-		}
-		if (mode == Auto.RAMPARTS){
-			chasis._driveRobot(0.9, 0);
-			Timer.delay(3);
-			chasis._driveRobot(0, 0);
-			Timer.delay(0.1);
-			chasis._driveRobot(0.5, 0);
-			Timer.delay(2);
-			chasis._driveRobot(0, 0);
-		}
-		if (mode == Auto.ROCK_WALL){
-			chasis._driveRobot(0.8, 0);
-			Timer.delay(3);
-			chasis._driveRobot(0.5, 0);
-			Timer.delay(4);
-			chasis._driveRobot(0,0);
-		}
-		if (mode == Auto.ROUGH_TERRAIN){
-			chasis._driveRobot(0.8, 0);
-			Timer.delay(3);
-			chasis._driveRobot(0.5, 0);
-			Timer.delay(4);
-			chasis._driveRobot(0,0);		
-		}
-		if (mode == Auto.SALLY_PORT){
-			
-		}
-		if (mode == Auto.DRAWBRIDGE){
-			
-		}
-		if (mode == Auto.CHEVAL_DE_FRISE){
-			arm.SetArm(0.9); //move arms up
-			chasis._driveRobot(0.6, 0);
-			Timer.delay(0.75);
-			arm.SetArm(0);
-			Timer.delay(2.25);
-			chasis._driveRobot(0, 0);
-			while(!IO.getArmUpperLimit()){
-				arm.SetArm(-0.6);
-			}
-			arm.SetArm(0);
-			Timer.delay(1);
-			arm.SetArm(1);
-			Timer.delay(1.8);
-			arm.SetArm(0);
-			chasis._driveRobot(0.8, 0);
-			Timer.delay(5);
-			chasis._driveRobot(0, 0);
-			
-		}
-		if (mode == Auto.TEST_AUTO){
-			if (!IO.getArmUpperLimit()){
-				arm.SetArm(0.45);
-			} else {
-				arm.SetArm(0);
-			}
-		}
-		*/
 	}
 }
