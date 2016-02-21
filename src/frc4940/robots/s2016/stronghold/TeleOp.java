@@ -1,4 +1,5 @@
 package frc4940.robots.s2016.stronghold;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleOp{
 	int _zone;
@@ -29,7 +30,7 @@ public class TeleOp{
 		/**
 		 * Controls movement of new arm
 		 */
-		if(!IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
+		if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
 			IO.arm.SetArm(0);
 		} else {
 			IO.arm.SetArm(0.92*IO.getXboxRightY());
@@ -42,10 +43,8 @@ public class TeleOp{
 		if(IO.getXboxBButton()){
 			if(!IO.getInnerBallscrewLimit()){
 				IO.ballscrew.SetArm(0);
-				System.out.println("ARM STOPPED");
 			} else {
 				IO.ballscrew.SetArm(-1);
-				System.out.println("MOVEMENT");
 			}
 		} else if(IO.getXboxAButton()){
 			IO.ballscrew.SetArm(1);
@@ -58,8 +57,11 @@ public class TeleOp{
 		 * Prints the status of the limit switch to the driver station
 		 * Prints the position of the arm's position
 		 */
-		System.out.println("ARM | " + IO.getArmUpperLimit());
-		System.out.println("BALLSCREW | " + IO.getArmUpperLimit());
+		System.out.println("0 | " + IO.getArmUpperLimit());
+		System.out.println("1 | " + IO.getInnerBallscrewLimit());
+		SmartDashboard.putNumber("ARM LENGTH", getArmAngle());
+		SmartDashboard.putBoolean("ARM LIMIT", IO.getArmUpperLimit());
+		SmartDashboard.putBoolean("BALLSCREW LIMIT", IO.getArmUpperLimit());
 		//System.out.print("ARM=" + backarm.getArmPosition());
 		//System.out.println(" | SCREW = " + ballscrew.getArmPosition());
 		

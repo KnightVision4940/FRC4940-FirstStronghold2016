@@ -1,8 +1,5 @@
 package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 
 public class Arm {
 	CANTalon __Arm;

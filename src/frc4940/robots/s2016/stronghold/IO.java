@@ -7,7 +7,7 @@ public class IO {
 	 * Subsystems
 	 */
 	static Arm arm = new Arm(Map.CAN.ARM_);
-	static Arm ballscrew = new Arm(Map.CAN.ARM_);
+	static Arm ballscrew = new Arm(Map.CAN.SECOND_ARM);
 	static TankWheels chassis = new TankWheels();
 	/**
 	 * Xbox Controller
