@@ -34,6 +34,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	auto.init();
+    	auto.Run();
     	/**		
 		int armPosi = __arm__.getArmPosition();	
 		while (!IO.getArmUpperLimit() && __arm__.getArmPosition() > armPosi-525){
@@ -57,7 +58,6 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	auto.Run();
     }
 
     /**
@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
     	teleop.calibrateArmPosition();
     }
     public void testPeriodic(){
-    	teleop.getArmAngle();
+    	System.out.println(teleop.getArmAngle());
     }
     
 }

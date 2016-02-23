@@ -1,11 +1,29 @@
 package frc4940.robots.s2016.stronghold;
+import java.sql.Time;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleOp{
 	int _zone;
+	/**
+	 * Stores ID numbers for preset commands
+	 * 0 - Standard TeleOp
+	 * 1 - Portcullis
+	 * 2 - Drawbridge
+	 */
+	int _preset;
+	//Stores stage of command (starts at 0 and progresses up as preset progress)
+	int commStage;
 	
 	TeleOp(){
+		_preset = 0;
 		_zone = 0;
+		commStage = 0;
+	}
+	
+	public void init(){
+		IO.time.reset();
 	}
 	
 	//throwaway method used to test the encoder if it resets after 360 degrees
@@ -16,55 +34,146 @@ public class TeleOp{
 	
 	//Method is run every 30ms during TeleOp period
 	public void run(){
-		
-		/**
-		 * Drives the robot
-		 * Right Trigger drives forwards
-		 * Left Trigger drives backwards
-		 * Left Stick (X-Axis) turns
-		 * 
-		 * Driving inputs are squared so to reduce overly sensitive driving.
-		 */
-		IO.chassis._driveRobotSQ(-IO.getXboxTrig(), -IO.getXboxLeftX());
-		
-		/**
-		 * Controls movement of new arm
-		 */
-		if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
-			IO.arm.SetArm(0);
-		} else {
-			IO.arm.SetArm(0.92*IO.getXboxRightY());
-			//runArm_BoundBox();
+		if(IO.getXboxStart()){
+			_preset = 2;
+		} else if(IO.getXboxLBumper()){
+			_preset = 1;
 		}
 		
-		/**
-		 * Controls manual movement of the arm
-		 */
-		if(IO.getXboxBButton()){
-			if(!IO.getInnerBallscrewLimit()){
-				IO.ballscrew.SetArm(0);
+		if(_preset == 0){
+			/**
+			 * Drives the robot
+			 * Right Trigger drives forwards
+			 * Left Trigger drives backwards
+			 * Left Stick (X-Axis) turns
+			 * 
+			 * Driving inputs are squared so to reduce overly sensitive driving.
+			 */
+			IO.chassis._driveRobotSQ(-IO.getXboxTrig(), -IO.getXboxLeftX());
+			
+			/**
+			 * Controls movement of new arm
+			 */
+			if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
+				IO.arm.SetArm(0);
 			} else {
-				IO.ballscrew.SetArm(-1);
+				IO.arm.SetArm(0.92*IO.getXboxRightY());
+				//runArm_BoundBox();
 			}
-		} else if(IO.getXboxAButton()){
-			IO.ballscrew.SetArm(1);
-		} else {
-			IO.ballscrew.SetArm(0);
+			
+			/**
+			 * Controls manual movement of the arm
+			 */
+			if(IO.getXboxBButton()){
+				if(!IO.getInnerBallscrewLimit()){
+					IO.ballscrew.SetArm(0);
+				} else {
+					IO.ballscrew.SetArm(-1);
+				}
+			} else if(IO.getXboxAButton()){
+				if(!IO.getOuterBallscrewLimit()){
+					IO.ballscrew.SetArm(0);
+				} else {
+					IO.ballscrew.SetArm(1);
+				}
+			} else {
+				IO.ballscrew.SetArm(0);
+			}
+			
+			/**
+			 * DEBUG CODE
+			 * Prints the status of the limit switch to the driver station
+			 * Prints the position of the arm's position
+			 */
+			System.out.println("0 | " + IO.getArmUpperLimit());
+			System.out.println("2 | " + IO.getOuterBallscrewLimit());
+			SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
+			SmartDashboard.putBoolean("ARM LIMIT", IO.getArmUpperLimit());
+			SmartDashboard.putBoolean("BALLSCREW LIMIT", IO.getArmUpperLimit());
+			//System.out.print("ARM=" + backarm.getArmPosition());
+			//System.out.println(" | SCREW = " + ballscrew.getArmPosition());
+		}else if(_preset == 1){ //Portcullis Command
+			//override switch
+			if(IO.getXboxSelect()){
+				_preset = 0;
+			}
+			
+			if(IO.time.get() == 0){
+				IO.time.start();
+			}
+			
+			if(IO.time.get() < 1.4){
+    			IO.chassis._driveRobot(1, 0);
+    			if(IO.getArmUpperLimit()){
+    				IO.arm.SetArm(0);
+    			} else {
+    				IO.arm.SetArm(-0.75);
+    			}
+    		} else{
+    			IO.chassis._driveRobot(0, 0);
+    		}
+			
+			if(IO.time.get() >= 1.4 && IO.time.get() < 2.8){
+				if(IO.time.get() >= 1.4 && IO.time.get() < 2.0){
+					IO.arm.SetArm(0.95);
+				} else {
+					IO.arm.SetArm(0);
+				}
+				IO.chassis._driveRobot(0.65, 0);
+			} else {
+				IO.chassis._driveRobot(0, 0);
+				IO.time.stop();
+				IO.time.reset();
+				_preset = 0;
+			}
+		} else if (_preset == 2){ //Drawbridge Preset
+			//override switch
+			if(IO.getXboxSelect()){
+				_preset = 0;
+			}
+			
+			if(IO.time.get() == 0){
+				IO.time.start();
+			}
+			
+			if(IO.time.get() < 1.4){
+				if(IO.time.get() < 0.75){
+					IO.ballscrew.SetArm(0.95);
+				} else {
+					IO.ballscrew.SetArm(0);
+				}
+				IO.chassis._driveRobot(1, 0);
+			} else {
+				IO.chassis._driveRobot(0, 0);
+			}
+			
+			if(IO.time.get() >= 1.4 && IO.time.get() < 1.85){
+				IO.ballscrew.SetArm(-0.9);
+			} else {
+				IO.ballscrew.SetArm(0);
+			}
+			
+			if(IO.time.get() >= 1.85 && IO.time.get() < 3.2){
+				IO.arm.SetArm(-.95);
+			} else {
+				IO.arm.SetArm(0);
+			}
+			
+			if(IO.time.get() >= 3.2 && IO.time.get() < 3.9){
+				IO.chassis._driveRobot(-0.455, 0);
+			} else {
+				IO.chassis._driveRobot(0, 0);
+			}
+			
+			if(IO.time.get() >= 3.9 && IO.time.get() < 5.2){
+				IO.chassis._driveRobot(1, 0);
+			} else {
+				IO.chassis._driveRobot(0, 0);
+				IO.time.stop();
+				IO.time.reset();
+				_preset = 0;
+			}
 		}
-		
-		/**
-		 * DEBUG CODE
-		 * Prints the status of the limit switch to the driver station
-		 * Prints the position of the arm's position
-		 */
-		System.out.println("0 | " + IO.getArmUpperLimit());
-		System.out.println("1 | " + IO.getInnerBallscrewLimit());
-		SmartDashboard.putNumber("ARM LENGTH", getArmAngle());
-		SmartDashboard.putBoolean("ARM LIMIT", IO.getArmUpperLimit());
-		SmartDashboard.putBoolean("BALLSCREW LIMIT", IO.getArmUpperLimit());
-		//System.out.print("ARM=" + backarm.getArmPosition());
-		//System.out.println(" | SCREW = " + ballscrew.getArmPosition());
-		
 	}
 	
 	/**
@@ -88,12 +197,6 @@ public class TeleOp{
 			System.out.println(_armPos + " | " + IO.arm.getArmPosition());
 		}
 		IO.arm.SetArm(0);
-		
-		if(IO.getInnerBallscrewLimit()){
-			IO.ballscrew.SetArm(-.3);
-		} else {
-			IO.ballscrew.SetArm(0);
-		}
 	}
 	
 	/**
@@ -116,9 +219,7 @@ public class TeleOp{
 		if(getZone() == 1){
 			if(IO.getXboxRightY() < 0){ //moving down [retract]
 				//extends the arm
-				if (IO.getInnerBallscrewLimit()){
-					IO.ballscrew.SetArm(0);
-				} else if (getArmLength() > getMaxLength(getArmAngle() - 0.05) - 1){
+				if (getArmLength() > getMaxLength(getArmAngle() - 0.05) - 1){
 					if (IO.getXboxRightY() < -0.8){
 						IO.ballscrew.SetArm(-1);
 					} else {
@@ -129,9 +230,7 @@ public class TeleOp{
 				}
 			} else if(IO.getXboxRightY() > 0){ //moving up [extend]
 				//retracts the arm 
-				if (IO.getInnerBallscrewLimit()){
-					IO.ballscrew.SetArm(0);
-				} else if (getArmLength() > getMaxLength(getArmAngle() + 0.05) - 1){
+				if (getArmLength() > getMaxLength(getArmAngle() + 0.05) - 1){
 					if (IO.getXboxRightY() > 0.8){
 						IO.ballscrew.SetArm(1);
 					} else {
@@ -148,9 +247,7 @@ public class TeleOp{
 		else if(getZone() == 2){
 			if(IO.getXboxRightY() < 0){ //moving down [extend]
 				//extends the arm
-				if (IO.getInnerBallscrewLimit()){
-					IO.ballscrew.SetArm(0);
-				} else if (getArmLength() < getMaxLength(getArmAngle() - 0.05) - 1){
+				if (getArmLength() < getMaxLength(getArmAngle() - 0.05) - 1){
 					if (IO.getXboxRightY() < 0.8){
 						IO.ballscrew.SetArm(1);
 					} else {
@@ -161,9 +258,7 @@ public class TeleOp{
 				}
 			} else if(IO.getXboxRightY() > 0){ //moving up [retract]
 				//retracts the arm 
-				if (IO.getInnerBallscrewLimit()){
-					IO.ballscrew.SetArm(0);
-				} else if (getArmLength() > getMaxLength(getArmAngle() + 0.05) - 1){
+				if (getArmLength() > getMaxLength(getArmAngle() + 0.05) - 1){
 					if (IO.getXboxRightY() > 0.8){
 						IO.ballscrew.SetArm(-1);
 					} else {
@@ -178,9 +273,7 @@ public class TeleOp{
 		 * ZONE 3
 		 */
 		else if (getZone() == 3){
-			if (IO.getInnerBallscrewLimit()){
-				IO.ballscrew.SetArm(0);
-			} else if (getArmLength() > (getMaxLength(Map.BoundBox.ANGLE_ALPHA) - 1)){
+			if (getArmLength() > (getMaxLength(Map.BoundBox.ANGLE_ALPHA) - 1)){
 				IO.ballscrew.SetArm(-1);
 			} else {
 				IO.ballscrew.SetArm(0);
@@ -251,5 +344,5 @@ public class TeleOp{
 			_zone = 4;
 		}
 		return _zone;
-	}
+	} 
 }

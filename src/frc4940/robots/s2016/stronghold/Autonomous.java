@@ -6,11 +6,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc4940.robots.s2016.stronghold.Map.Auto;
 
 public class Autonomous {
-	
-	//Used to keep track of time ;)
-	static Timer time;
 	//Int storing the selector that determines the auto mode
     int selectedAuto;
+    //used in individual aauto modes to determine stages; starts at 0
+    int autoStage;
     //Object allowing the option of choosing autonomous in the SmartDashboard
     SendableChooser chooser;
 	
@@ -18,7 +17,6 @@ public class Autonomous {
 	 * Constructor & Initiator
 	 */
 	Autonomous(){
-		time = new Timer();
     	//Constructs chooser object
         chooser = new SendableChooser();
         //Adds multiple modes to be selected
@@ -33,12 +31,14 @@ public class Autonomous {
         chooser.addObject("Rough Terrain", Map.Auto.ROUGH_TERRAIN);
         //I'm pretty sure this is a wrapper for the whole chooser UI in the dashboard
         SmartDashboard.putData("Auto choices", chooser);
+        //resets the auto stage
+        autoStage = 0;
 	}
 	
 	void init(){
-		time.reset();
 		//gets the selected button from the SmartDashboard, and selects the associated autonomous
     	selectedAuto = (int)chooser.getSelected();
+    	autoStage = 0;
 	}
 	
 	// Run statement, so whatever mode is chosen by name or number, then the robot will use that autonomous 
@@ -53,22 +53,39 @@ public class Autonomous {
 		switch(selectedAuto) {
 	    	case Map.Auto.LOW_BAR:
 		    	default:
-		    		IO.chassis._driveRobot(0.6, 0);
-					Timer.delay(5);
+		    		IO.chassis._driveRobot(0.8, 0);
+					Timer.delay(3.5);
 					IO.chassis._driveRobot(0, 0);
 		            break;
 	    	case Map.Auto.PORTCULLIS:
-	    		IO.chassis._driveRobot(0.7, 0);
-				Timer.delay(2);
+	    		while(!IO.getArmUpperLimit()){
+	    			IO.arm.SetArm(-0.9);
+	    		}
+	    		IO.arm.SetArm(0);
+	    		
+	    		IO.ballscrew.SetArm(1);
+	    		Timer.delay(0.75);
+	    		IO.ballscrew.SetArm(0);
+	    		
+	    		IO.time.start();
+	    		while(IO.time.get() < 2.45){
+	    			IO.chassis._driveRobot(-0.5, 0);
+	    		}
 				IO.chassis._driveRobot(0, 0);
+				IO.time.stop();
+				IO.time.reset();
 				
-				IO.arm.SetArm(-0.9);
-				Timer.delay(2);
+				IO.arm.SetArm(0.9);
+				Timer.delay(3);
 				IO.arm.SetArm(0);
 				
-				IO.chassis._driveRobot(0.7, 0);
-				Timer.delay(4);
+				IO.time.start();
+	    		while(IO.time.get() < 2){
+	    			IO.chassis._driveRobot(-0.5, 0);
+	    		}
 				IO.chassis._driveRobot(0, 0);
+				IO.time.stop();
+				IO.time.reset();
 	            break;
 	    	case Map.Auto.CHEVAL_DE_FRISE:
 	    		IO.arm.SetArm(0.9); //move arms up
@@ -105,8 +122,29 @@ public class Autonomous {
     			
 				break;
 	    	case Map.Auto.DRAWBRIDGE:
-	    		
-    			System.out.println("Draw me a bridge");
+				IO.ballscrew.SetArm(0.95);
+				IO.chassis._driveRobot(1, 0);
+				Timer.delay(0.75);
+				IO.ballscrew.SetArm(0);
+				Timer.delay(0.65);
+				IO.chassis._driveRobot(0, 0);
+				
+				IO.ballscrew.SetArm(-0.9);
+				Timer.delay(0.45);
+				IO.ballscrew.SetArm(0);
+				
+				IO.arm.SetArm(-.95);
+				Timer.delay(2.2);
+				IO.arm.SetArm(0);
+				
+				IO.chassis._driveRobot(-0.455, 0);
+				Timer.delay(0.45);
+				IO.chassis._driveRobot(0, 0);
+				
+				IO.chassis._driveRobot(1, 0);
+				Timer.delay(1.3);
+				IO.chassis._driveRobot(0, 0);
+				
     			break;
 	    	case Map.Auto.SALLY_PORT:
 	    		
@@ -114,7 +152,7 @@ public class Autonomous {
     			break;
 	    	case Map.Auto.ROCK_WALL:
 				IO.chassis._driveRobot(0.5, 0);
-				Timer.delay(5);
+				Timer.delay(6);
 				IO.chassis._driveRobot(0,0);
 				break;
 	    	case Map.Auto.ROUGH_TERRAIN:

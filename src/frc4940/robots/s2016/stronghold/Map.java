@@ -9,6 +9,7 @@ public class Map {
 	public class Limit{
 		public static final int UPPERARMLIMIT = 0;
 		public static final int BALLSCREW_INNER_LIMIT = 1;
+		public static final int BALLSCREW_MAX = 2;
 	}
 	
 	public class PWM{		

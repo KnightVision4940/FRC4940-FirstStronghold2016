@@ -1,6 +1,7 @@
 package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 
 public class IO {
 	/**
@@ -9,6 +10,7 @@ public class IO {
 	static Arm arm = new Arm(Map.CAN.ARM_);
 	static Arm ballscrew = new Arm(Map.CAN.SECOND_ARM);
 	static TankWheels chassis = new TankWheels();
+	static Timer time = new Timer();
 	/**
 	 * Xbox Controller
 	 */
@@ -64,7 +66,19 @@ public class IO {
 		return xbox.getRawButton(4);
 	}
 	
+	public static boolean getXboxLBumper(){
+		return xbox.getRawButton(5);
+	}
+	
+	public static boolean getXboxRBumper(){
+		return xbox.getRawButton(6);
+	}
+	
 	public static boolean getXboxStart(){
+		return xbox.getRawButton(7);
+	}
+	
+	public static boolean getXboxSelect(){
 		return xbox.getRawButton(8);
 	}
 	
@@ -73,15 +87,18 @@ public class IO {
 	 */
 	static DigitalInput upperArmLimit = new DigitalInput(Map.Limit.UPPERARMLIMIT);
 	static DigitalInput ballscrewInner = new DigitalInput(Map.Limit.BALLSCREW_INNER_LIMIT);
+	static DigitalInput ballscrewOuter = new DigitalInput(Map.Limit.BALLSCREW_MAX);
 	
 	public static boolean getArmUpperLimit(){
-		System.out.println("0 - " + upperArmLimit.get());
 		return upperArmLimit.get();
 	}
 	
 	public static boolean getInnerBallscrewLimit(){
-		System.out.println("1 - " + ballscrewInner.get());
 		return ballscrewInner.get();
+	}
+	
+	public static boolean getOuterBallscrewLimit(){
+		return ballscrewOuter.get();
 	}
 }
 
