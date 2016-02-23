@@ -5,175 +5,74 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleOp{
+	/**Variables**/
 	int _zone;
-	/**
-	 * Stores ID numbers for preset commands
-	 * 0 - Standard TeleOp
-	 * 1 - Portcullis
-	 * 2 - Drawbridge
-	 */
-	int _preset;
-	//Stores stage of command (starts at 0 and progresses up as preset progress)
-	int commStage;
+	//Following three variables for use with Drawbridge preset
+	boolean previousSelect;		//stores the previous state of the Select button
+	boolean currentSelect;		//stores the current state of Select (pressed or not pressed)
+	boolean drawbridgePreset;	//if true, execute drawbridge routine. Routine will cancel once the value returns to false
+	int presetStage;			//Stores the stage of the preset routine; starts and ends at 0, first stage of routine is 1
 	
+	/**Constructor**/
 	TeleOp(){
-		_preset = 0;
 		_zone = 0;
-		commStage = 0;
+		previousSelect = false;
+		currentSelect = false;
+		presetStage = 0;
 	}
 	
+	/**Initation Method**/
 	public void init(){
 		IO.time.reset();
 	}
 	
-	//throwaway method used to test the encoder if it resets after 360 degrees
-	public void testEnc(){
-		IO.ballscrew.SetArm(0.5);
-		System.out.println(IO.ballscrew.getArmPosition());
-	}
-	
-	//Method is run every 30ms during TeleOp period
+	/**TeleOp code; runs every 30ms during TeleOp period**/
 	public void run(){
-		if(IO.getXboxStart()){
-			_preset = 2;
-		} else if(IO.getXboxLBumper()){
-			_preset = 1;
+		/**
+		 * Drives the robot
+		 * Right Trigger drives forwards
+		 * Left Trigger drives backwards
+		 * Left Stick (X-Axis) turns
+		 * 
+		 * Driving inputs are squared so to reduce overly sensitive driving.
+		 */
+		IO.chassis._driveRobotSQ(-IO.getXboxTrig(), -IO.getXboxLeftX());
+		
+		/**
+		 * Controls movement of new arm
+		 */
+		if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
+			IO.arm.SetArm(0);
+		} else {
+			IO.arm.SetArm(0.92*IO.getXboxRightY());
+			//runArm_BoundBox();
 		}
 		
-		if(_preset == 0){
-			/**
-			 * Drives the robot
-			 * Right Trigger drives forwards
-			 * Left Trigger drives backwards
-			 * Left Stick (X-Axis) turns
-			 * 
-			 * Driving inputs are squared so to reduce overly sensitive driving.
-			 */
-			IO.chassis._driveRobotSQ(-IO.getXboxTrig(), -IO.getXboxLeftX());
-			
-			/**
-			 * Controls movement of new arm
-			 */
-			if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
-				IO.arm.SetArm(0);
-			} else {
-				IO.arm.SetArm(0.92*IO.getXboxRightY());
-				//runArm_BoundBox();
-			}
-			
-			/**
-			 * Controls manual movement of the arm
-			 */
-			if(IO.getXboxBButton()){
-				if(!IO.getInnerBallscrewLimit()){
-					IO.ballscrew.SetArm(0);
-				} else {
-					IO.ballscrew.SetArm(-1);
-				}
-			} else if(IO.getXboxAButton()){
-				if(!IO.getOuterBallscrewLimit()){
-					IO.ballscrew.SetArm(0);
-				} else {
-					IO.ballscrew.SetArm(1);
-				}
-			} else {
+		/**
+		 * Controls manual movement of the arm
+		 */
+		if(IO.getXboxBButton()){
+			if(!IO.getInnerBallscrewLimit()){
 				IO.ballscrew.SetArm(0);
-			}
-			
-			/**
-			 * DEBUG CODE
-			 * Prints the status of the limit switch to the driver station
-			 * Prints the position of the arm's position
-			 */
-			System.out.println("0 | " + IO.getArmUpperLimit());
-			System.out.println("2 | " + IO.getOuterBallscrewLimit());
-			SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
-			SmartDashboard.putBoolean("ARM LIMIT", IO.getArmUpperLimit());
-			SmartDashboard.putBoolean("BALLSCREW LIMIT", IO.getArmUpperLimit());
-			//System.out.print("ARM=" + backarm.getArmPosition());
-			//System.out.println(" | SCREW = " + ballscrew.getArmPosition());
-		}else if(_preset == 1){ //Portcullis Command
-			//override switch
-			if(IO.getXboxSelect()){
-				_preset = 0;
-			}
-			
-			if(IO.time.get() == 0){
-				IO.time.start();
-			}
-			
-			if(IO.time.get() < 1.4){
-    			IO.chassis._driveRobot(1, 0);
-    			if(IO.getArmUpperLimit()){
-    				IO.arm.SetArm(0);
-    			} else {
-    				IO.arm.SetArm(-0.75);
-    			}
-    		} else{
-    			IO.chassis._driveRobot(0, 0);
-    		}
-			
-			if(IO.time.get() >= 1.4 && IO.time.get() < 2.8){
-				if(IO.time.get() >= 1.4 && IO.time.get() < 2.0){
-					IO.arm.SetArm(0.95);
-				} else {
-					IO.arm.SetArm(0);
-				}
-				IO.chassis._driveRobot(0.65, 0);
 			} else {
-				IO.chassis._driveRobot(0, 0);
-				IO.time.stop();
-				IO.time.reset();
-				_preset = 0;
+				IO.ballscrew.SetArm(-1);
 			}
-		} else if (_preset == 2){ //Drawbridge Preset
-			//override switch
-			if(IO.getXboxSelect()){
-				_preset = 0;
-			}
-			
-			if(IO.time.get() == 0){
-				IO.time.start();
-			}
-			
-			if(IO.time.get() < 1.4){
-				if(IO.time.get() < 0.75){
-					IO.ballscrew.SetArm(0.95);
-				} else {
-					IO.ballscrew.SetArm(0);
-				}
-				IO.chassis._driveRobot(1, 0);
-			} else {
-				IO.chassis._driveRobot(0, 0);
-			}
-			
-			if(IO.time.get() >= 1.4 && IO.time.get() < 1.85){
-				IO.ballscrew.SetArm(-0.9);
-			} else {
+		} else if(IO.getXboxAButton()){
+			if(!IO.getOuterBallscrewLimit()){
 				IO.ballscrew.SetArm(0);
-			}
-			
-			if(IO.time.get() >= 1.85 && IO.time.get() < 3.2){
-				IO.arm.SetArm(-.95);
 			} else {
-				IO.arm.SetArm(0);
+				IO.ballscrew.SetArm(1);
 			}
-			
-			if(IO.time.get() >= 3.2 && IO.time.get() < 3.9){
-				IO.chassis._driveRobot(-0.455, 0);
-			} else {
-				IO.chassis._driveRobot(0, 0);
-			}
-			
-			if(IO.time.get() >= 3.9 && IO.time.get() < 5.2){
-				IO.chassis._driveRobot(1, 0);
-			} else {
-				IO.chassis._driveRobot(0, 0);
-				IO.time.stop();
-				IO.time.reset();
-				_preset = 0;
-			}
+		} else {
+			IO.ballscrew.SetArm(0);
 		}
+		
+		/**
+		 * DEBUG CODE
+		 * Prints the status of the limit switch to the driver station
+		 * Prints the position of the arm's position
+		 */
+		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
 	}
 	
 	/**
@@ -197,6 +96,57 @@ public class TeleOp{
 			System.out.println(_armPos + " | " + IO.arm.getArmPosition());
 		}
 		IO.arm.SetArm(0);
+	}
+	
+	/**
+	 * DRAWBRIDGE PRESET
+	 * Press Select to Toggle
+	 * Will automatically deactivate when routine is complete
+	 * Assumes the robot is up against the door of the drawbridge
+	 */
+	public void drawbridgePreset(){
+		//stores the status of the SELECT button (on/off) from the previous tick (30ms)
+		previousSelect = currentSelect;
+		//stores the current status of the SELECT button (on/off). Next tick, it will be stored in previousSelect
+		currentSelect = IO.getXboxSelect();
+		
+		/**
+		 * Checks if the select button has been pressed between the previous tick and the current tick
+		 * This ensures someone holding the button won't continuously toggle the preset on and off
+		 */
+		if (currentSelect && !previousSelect){
+			//when select is pressed, the preset will either be toggled on or off
+			drawbridgePreset = !drawbridgePreset;
+		}
+		
+		//Routine to be run if toggled on [normally off]
+		if (drawbridgePreset){
+			//switches through presetStage to check which part of the routine is completed.
+			//essentially allows for blocks in sequential steps, which all individually execute periodically
+			switch(presetStage){
+			case 0:
+				//case 0 is the default stage, and should usually be reserved for a sort of init method
+				IO.time.start();
+				presetStage++; //advances to the next step.
+				break;
+			case 1:
+				if(IO.time.get() < 5){
+					System.out.println("drwbrdge | " + IO.time.get());
+				} else {
+					IO.time.stop();
+					IO.time.reset();
+					presetStage++;
+				}
+				break;
+			case 2:
+				if(IO.time.get() < 7){
+					System.out.println("Stage#2");;
+				} else {
+					presetStage = 0;
+				}
+				break;
+			}
+		}
 	}
 	
 	/**
