@@ -21,12 +21,12 @@ public class Autonomous {
         chooser = new SendableChooser();
         //Adds multiple modes to be selected
         chooser.addDefault("Low Bar", Map.Auto.LOW_BAR);
-        chooser.addObject("Portcullis", Map.Auto.PORTCULLIS);
-        chooser.addObject("Cheval de Frise", Map.Auto.CHEVAL_DE_FRISE);
+        chooser.addObject("*Portcullis", Map.Auto.PORTCULLIS);
+        chooser.addObject("*Cheval de Frise", Map.Auto.CHEVAL_DE_FRISE);
         chooser.addObject("Ramparts", Map.Auto.RAMPARTS);
         chooser.addObject("Moat", Map.Auto.MOAT);
-        chooser.addObject("Drawbridge", Map.Auto.DRAWBRIDGE);
-        chooser.addObject("Sally Port", Map.Auto.SALLY_PORT);
+        chooser.addObject("*Drawbridge", Map.Auto.DRAWBRIDGE);
+        chooser.addObject("*Sally Port", Map.Auto.SALLY_PORT);
         chooser.addObject("Rock Wall", Map.Auto.ROCK_WALL);
         chooser.addObject("Rough Terrain", Map.Auto.ROUGH_TERRAIN);
         chooser.addObject("Test", Map.Auto.TEST_AUTO);
@@ -60,8 +60,8 @@ public class Autonomous {
 		    		}
 		    		IO.arm.SetArm(0);
 		    		
-		    		IO.chassis._driveRobot(-0.5, 0);
-					Timer.delay(1.8);
+		    		IO.chassis._driveRobot(-0.3, 0);
+					Timer.delay(4.3);
 					IO.chassis._driveRobot(0, 0);
 		            break;
 	    	
@@ -94,7 +94,8 @@ public class Autonomous {
 				IO.chassis._driveRobot(0, 0);
 				IO.time.stop();
 				IO.time.reset();
-	            break;
+				break;
+	    	
 	    	case Map.Auto.CHEVAL_DE_FRISE:
 	    		IO.arm.SetArm(0.9); //move arms up
 				IO.chassis._driveRobot(0.6, 0);
@@ -114,21 +115,25 @@ public class Autonomous {
 				Timer.delay(5);
 				IO.chassis._driveRobot(0, 0);
     			break;
-	    	case Map.Auto.RAMPARTS:
-	    		IO.chassis._driveRobot(0.75, 0);
-				Timer.delay(4.5);
-				IO.chassis._driveRobot(0, 0);
-				Timer.delay(0.1);
-				IO.chassis._driveRobot(-0.5, 0);
-				Timer.delay(2);
+	    	
+	    	case Map.Auto.RAMPARTS: //Does not equal 130
+	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+	    			IO.arm.SetArm(-1.0);
+	    		}
+	    		IO.chassis._driveRobot(-0.5, 0);
+				Timer.delay(3);
 				IO.chassis._driveRobot(0, 0);
     			break;
-	    	case Map.Auto.MOAT:
+	    	
+	    	case Map.Auto.MOAT: //Formula will not = to 130 inches
+	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+	    			IO.arm.SetArm(-1.0);
+	    		}
 	    		IO.chassis._driveRobot(-0.5, 0);
-				Timer.delay(2.2);
+				Timer.delay(3);
 				IO.chassis._driveRobot(0, 0);
-    			
-				break;
+   				break;
+	
 	    	case Map.Auto.DRAWBRIDGE:
 				IO.ballscrew.SetArm(0.95);
 				IO.chassis._driveRobot(1, 0);
@@ -152,22 +157,31 @@ public class Autonomous {
 				IO.chassis._driveRobot(1, 0);
 				Timer.delay(1.3);
 				IO.chassis._driveRobot(0, 0);
-				
-    			break;
+	   			break;
+	    	
 	    	case Map.Auto.SALLY_PORT:
 	    		
     			System.out.println("Sassy Sally");
     			break;
-	    	case Map.Auto.ROCK_WALL:
-				IO.chassis._driveRobot(0.5, 0);
-				Timer.delay(6);
+	    	
+	    	case Map.Auto.ROCK_WALL: // Wont equal 130
+	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+	    			IO.arm.SetArm(-1.0);
+	    		}
+	    		IO.chassis._driveRobot(-0.4, 0);
+				Timer.delay(3.4);
 				IO.chassis._driveRobot(0,0);
 				break;
-	    	case Map.Auto.ROUGH_TERRAIN:
-	    		IO.chassis._driveRobot(0.8, 0);
-				Timer.delay(4);
-				IO.chassis._driveRobot(0, 0);
+	    	
+	    	case Map.Auto.ROUGH_TERRAIN: //Wont equal 130
+	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+	    			IO.arm.SetArm(-1.0);
+	    		}
+	    		IO.chassis._driveRobot(-0.5, 0);
+				Timer.delay(3);
+				IO.chassis._driveRobot(0,0);
             break;
+	    	
 	    	case Map.Auto.TEST_AUTO:
 	    		IO.chassis._driveRobot(-1, 0);
 				Timer.delay(1);
