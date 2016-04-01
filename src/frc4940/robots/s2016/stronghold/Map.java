@@ -46,14 +46,15 @@ public class Map {
 		public static final int ENC_HEIGHT = 500;
 		public static final int ENC_LIMIT_SWITCH = -375;
 		public static final int ENC_BALLSCREW_MAX_IN = 0;
+		public static final int ENC_ARM_OFFSET = 107820;
 	}
 	
 	public class BoundBox{
 		public static final double PI = 3.14159265359;
-		public static final double MAX_DISTANCE = 47;	//maximum length of arm (inches) at 0 degrees
-		public static final double MAX_HEIGHT = 41.5;	//maximum length of arm (inches) at 90 degrees
-		public static final double ANGLE_ALPHA = 41.44; //Angle at which the arm is at its maximum possible length
-		public static final double MAX_LENGTH = 62.70;  //Maximum possible length of the arm
+		public static final double MAX_DISTANCE = 48.5;	//maximum length of arm (inches) at 0 degrees
+		public static final double MAX_HEIGHT = 44.5;	//maximum length of arm (inches) at 90 degrees
+		public static final double ANGLE_ALPHA = 43.07; //Angle at which the arm is at its maximum possible length
+		public static final double MAX_LENGTH = 67;  //Maximum possible length of the arm
 	}
 	
 }

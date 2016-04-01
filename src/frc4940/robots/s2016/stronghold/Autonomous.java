@@ -29,6 +29,7 @@ public class Autonomous {
         chooser.addObject("Sally Port", Map.Auto.SALLY_PORT);
         chooser.addObject("Rock Wall", Map.Auto.ROCK_WALL);
         chooser.addObject("Rough Terrain", Map.Auto.ROUGH_TERRAIN);
+        chooser.addObject("Test", Map.Auto.TEST_AUTO);
         //I'm pretty sure this is a wrapper for the whole chooser UI in the dashboard
         SmartDashboard.putData("Auto choices", chooser);
         //resets the auto stage
@@ -39,6 +40,7 @@ public class Autonomous {
 		//gets the selected button from the SmartDashboard, and selects the associated autonomous
     	selectedAuto = (int)chooser.getSelected();
     	autoStage = 0;
+    	IO.chassis.Wheels.setSafetyEnabled(false);
 	}
 	
 	// Run statement, so whatever mode is chosen by name or number, then the robot will use that autonomous 
@@ -53,10 +55,16 @@ public class Autonomous {
 		switch(selectedAuto) {
 	    	case Map.Auto.LOW_BAR:
 		    	default:
-		    		IO.chassis._driveRobot(0.8, 0);
-					Timer.delay(3.5);
+		    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+		    			IO.arm.SetArm(-1.0);
+		    		}
+		    		IO.arm.SetArm(0);
+		    		
+		    		IO.chassis._driveRobot(-0.5, 0);
+					Timer.delay(1.8);
 					IO.chassis._driveRobot(0, 0);
 		            break;
+	    	
 	    	case Map.Auto.PORTCULLIS:
 	    		while(!IO.getArmUpperLimit()){
 	    			IO.arm.SetArm(-0.9);
@@ -116,8 +124,8 @@ public class Autonomous {
 				IO.chassis._driveRobot(0, 0);
     			break;
 	    	case Map.Auto.MOAT:
-	    		IO.chassis._driveRobot(0.8, 0);
-				Timer.delay(4);
+	    		IO.chassis._driveRobot(-0.5, 0);
+				Timer.delay(2.2);
 				IO.chassis._driveRobot(0, 0);
     			
 				break;
@@ -158,6 +166,11 @@ public class Autonomous {
 	    	case Map.Auto.ROUGH_TERRAIN:
 	    		IO.chassis._driveRobot(0.8, 0);
 				Timer.delay(4);
+				IO.chassis._driveRobot(0, 0);
+            break;
+	    	case Map.Auto.TEST_AUTO:
+	    		IO.chassis._driveRobot(-1, 0);
+				Timer.delay(1);
 				IO.chassis._driveRobot(0, 0);
             break;
 		}

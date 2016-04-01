@@ -35,23 +35,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	auto.init();
     	auto.Run();
-    	/**		
-		int armPosi = __arm__.getArmPosition();	
-		while (!IO.getArmUpperLimit() && __arm__.getArmPosition() > armPosi-525){
-			__arm__.SetArm(0.45);
-		}
-		__arm__.SetArm(0);
-
-		time.start();
-		
-		while (time.get() < 2){
-			teleop.chassis._driveRobot(-0.5, 0);
-		}
-		teleop.chassis._driveRobot(0.0, 0);
-		//Autonomous.Run(Map.Auto.TEST_AUTO);
-		 * 
-		 */
-		
+    	IO.chassis.Wheels.setSafetyEnabled(true);
     }
 
     /**
