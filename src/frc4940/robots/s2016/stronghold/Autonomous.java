@@ -58,7 +58,7 @@ public class Autonomous {
 		    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
 		    			IO.arm.SetArm(-1.0);
 		    		}
-		    		IO.arm.SetArm(0);
+		    		b
 		    		
 		    		IO.chassis._driveRobot(-0.3, 0);
 					Timer.delay(4.3);
@@ -120,6 +120,7 @@ public class Autonomous {
 	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
 	    			IO.arm.SetArm(-1.0);
 	    		}
+	    		IO.arm.SetArm(0);
 	    		IO.chassis._driveRobot(-0.5, 0);
 				Timer.delay(3);
 				IO.chassis._driveRobot(0, 0);
@@ -129,6 +130,7 @@ public class Autonomous {
 	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
 	    			IO.arm.SetArm(-1.0);
 	    		}
+	    		IO.arm.SetArm(0);
 	    		IO.chassis._driveRobot(-0.5, 0);
 				Timer.delay(3);
 				IO.chassis._driveRobot(0, 0);
@@ -168,6 +170,7 @@ public class Autonomous {
 	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
 	    			IO.arm.SetArm(-1.0);
 	    		}
+	    		IO.arm.SetArm(0);
 	    		IO.chassis._driveRobot(-0.4, 0);
 				Timer.delay(3.4);
 				IO.chassis._driveRobot(0,0);
@@ -177,15 +180,17 @@ public class Autonomous {
 	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
 	    			IO.arm.SetArm(-1.0);
 	    		}
+	    		IO.arm.SetArm(0);
 	    		IO.chassis._driveRobot(-0.5, 0);
 				Timer.delay(3);
 				IO.chassis._driveRobot(0,0);
             break;
 	    	
 	    	case Map.Auto.TEST_AUTO:
-	    		IO.chassis._driveRobot(-1, 0);
-				Timer.delay(1);
-				IO.chassis._driveRobot(0, 0);
+	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+	    			IO.arm.SetArm(-1.0);
+	    		}
+	    		IO.arm.SetArm(0);
             break;
 		}
 	}
