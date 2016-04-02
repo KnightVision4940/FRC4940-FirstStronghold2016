@@ -58,7 +58,7 @@ public class Autonomous {
 		    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
 		    			IO.arm.SetArm(-1.0);
 		    		}
-		    		b
+		    		IO.arm.SetArm(0);
 		    		
 		    		IO.chassis._driveRobot(-0.3, 0);
 					Timer.delay(4.3);
@@ -127,11 +127,11 @@ public class Autonomous {
     			break;
 	    	
 	    	case Map.Auto.MOAT: //Formula will not = to 130 inches
-	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
-	    			IO.arm.SetArm(-1.0);
-	    		}
+	    		//while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+	    		//	IO.arm.SetArm(-1.0);
+	    		//}
 	    		IO.arm.SetArm(0);
-	    		IO.chassis._driveRobot(-0.5, 0);
+	    		IO.chassis._driveRobot(-0.75, 0);
 				Timer.delay(3);
 				IO.chassis._driveRobot(0, 0);
    				break;
@@ -171,7 +171,7 @@ public class Autonomous {
 	    			IO.arm.SetArm(-1.0);
 	    		}
 	    		IO.arm.SetArm(0);
-	    		IO.chassis._driveRobot(-0.4, 0);
+	    		IO.chassis._driveRobot(-0.6, 0);
 				Timer.delay(3.4);
 				IO.chassis._driveRobot(0,0);
 				break;
@@ -187,7 +187,7 @@ public class Autonomous {
             break;
 	    	
 	    	case Map.Auto.TEST_AUTO:
-	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
+	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -30000){
 	    			IO.arm.SetArm(-1.0);
 	    		}
 	    		IO.arm.SetArm(0);
