@@ -59,9 +59,9 @@ public class Autonomous {
 		    			IO.arm.SetArm(-1.0);
 		    		}
 		    		IO.arm.SetArm(0);
-		    		
-		    		IO.chassis._driveRobot(-0.3, 0);
-					Timer.delay(4.3);
+		    		IO.arm.SetArm(0);
+		    		IO.chassis._driveRobot(-0.75, 0);
+					Timer.delay(3);
 					IO.chassis._driveRobot(0, 0);
 		            break;
 	    	
