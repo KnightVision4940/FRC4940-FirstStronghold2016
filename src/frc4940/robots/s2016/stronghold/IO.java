@@ -11,10 +11,12 @@ public class IO {
 	static Arm ballscrew = new Arm(Map.CAN.SECOND_ARM);
 	static TankWheels chassis = new TankWheels();
 	static Timer time = new Timer();
+	
 	/**
 	 * Xbox Controller
 	 */
 	static Joystick xbox = new Joystick(0);
+	private boolean isRumble = false;
 	
 	public static double getXboxLeftX(){
 		if (-xbox.getRawAxis(0) < 0.1 && -xbox.getRawAxis(0) > -0.1)
@@ -80,6 +82,10 @@ public class IO {
 	
 	public static boolean getXboxSelect(){
 		return xbox.getRawButton(8);
+	}
+	
+	public static void setXboxRumble(float _rumble){
+		xbox.setRumble(Joystick.RumbleType.kLeftRumble, _rumble);
 	}
 	
 	/**

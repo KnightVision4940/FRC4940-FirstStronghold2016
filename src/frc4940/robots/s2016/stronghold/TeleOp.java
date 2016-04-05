@@ -47,22 +47,33 @@ public class TeleOp{
 		 */
 		if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
 			IO.arm.SetArm(0);
+			IO.setXboxRumble(1);
 		} else {
 			if (getArmLength() > getMaxLength(getArmAngle())-0.25){
 				if(getZone() == 3){
 					IO.arm.SetArm(0);
+					if (IO.getXboxRightY() != 0)
+						IO.setXboxRumble(1);
 				} else if (getZone() == 1){
-					if (IO.getXboxRightY() > 0)
+					if (IO.getXboxRightY() > 0){
+						IO.setXboxRumble(0);
 						IO.arm.SetArm(0.92*IO.getXboxRightY());
-					else
+					}else{
+						IO.setXboxRumble(1);
 						IO.arm.SetArm(0);
+					}
 				} else if (getZone() == 2){
-					if (IO.getXboxRightY() < 0)
+					if (IO.getXboxRightY() < 0){
+						IO.setXboxRumble(0);
 						IO.arm.SetArm(0.92*IO.getXboxRightY());
-					else
+					}
+					else{
+						IO.setXboxRumble(1);
 						IO.arm.SetArm(0);
+					}
 				}
 			} else {
+				IO.setXboxRumble(0);
 				IO.arm.SetArm(0.92*IO.getXboxRightY());
 			}
 		}
@@ -73,17 +84,22 @@ public class TeleOp{
 		if(IO.getXboxBButton()){
 			if(!IO.getInnerBallscrewLimit()){
 				IO.ballscrew.SetArm(0);
+				IO.setXboxRumble(1);
 			} else {
 				IO.ballscrew.SetArm(-1);
+				IO.setXboxRumble(0);
 			}
 		} else if(IO.getXboxAButton()){
 			if(!IO.getOuterBallscrewLimit() || getArmLength() > getMaxLength(getArmAngle())-0.25){
 				IO.ballscrew.SetArm(0);
+				IO.setXboxRumble(1);
 			} else {
 				IO.ballscrew.SetArm(1);
+				IO.setXboxRumble(0);
 			}
 		} else {
 			IO.ballscrew.SetArm(0);
+			IO.setXboxRumble(0);
 		}
 		
 		//runArm_BoundBox();
