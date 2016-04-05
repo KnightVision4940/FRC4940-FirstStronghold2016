@@ -70,37 +70,33 @@ public class Autonomous {
 	    			IO.arm.SetArm(-0.9);
 	    		}
 	    		IO.arm.SetArm(0);
+	    		IO.arm.SetArm(0);
 	    		
-	    		IO.ballscrew.SetArm(1);
-	    		Timer.delay(0.75);
-	    		IO.ballscrew.SetArm(0);
-	    		
-	    		IO.time.start();
-	    		while(IO.time.get() < 2.45){
-	    			IO.chassis._driveRobot(-0.5, 0);
-	    		}
+	    		IO.chassis._driveRobot(-0.5, 0);
+				Timer.delay(0.6);
 				IO.chassis._driveRobot(0, 0);
-				IO.time.stop();
-				IO.time.reset();
 				
-				IO.arm.SetArm(0.9);
-				Timer.delay(3);
+				IO.ballscrew.SetArm(1);
+				Timer.delay(0.75);
+				IO.ballscrew.SetArm(0);
+				
+				int _armPos = IO.arm.getArmPosition();
+				
+				//sets the arm to standard position
+				while(IO.arm.getArmPosition() > _armPos - 52500){
+					IO.arm.SetArm(0.92);
+					System.out.println(_armPos + " | " + IO.arm.getArmPosition());
+				}
 				IO.arm.SetArm(0);
 				
-				IO.time.start();
-	    		while(IO.time.get() < 2){
-	    			IO.chassis._driveRobot(-0.5, 0);
-	    		}
+				IO.chassis._driveRobot(-0.75, 0);
+				Timer.delay(1.75);
 				IO.chassis._driveRobot(0, 0);
-				IO.time.stop();
-				IO.time.reset();
 				break;
 	    	
 	    	case Map.Auto.CHEVAL_DE_FRISE:
-	    		IO.arm.SetArm(0.9); //move arms up
 				IO.chassis._driveRobot(0.6, 0);
 				Timer.delay(0.75);
-				IO.arm.SetArm(0);
 				Timer.delay(2.25);
 				IO.chassis._driveRobot(0, 0);
 				while(!IO.getArmUpperLimit()){
@@ -187,10 +183,15 @@ public class Autonomous {
             break;
 	    	
 	    	case Map.Auto.TEST_AUTO:
-	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -30000){
-	    			IO.arm.SetArm(-1.0);
+	    		while(!IO.getArmUpperLimit()){
+	    			IO.arm.SetArm(-0.9);
 	    		}
 	    		IO.arm.SetArm(0);
+	    		IO.arm.SetArm(0);
+	    		
+	    		IO.chassis._driveRobot(-0.5, 0);
+				Timer.delay(0.6);
+				IO.chassis._driveRobot(0, 0);
             break;
 		}
 	}
