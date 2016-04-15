@@ -11,3 +11,20 @@
 ###About
   This is the code for FRC team 4940, **KnightVision Robotics**, for the 2016 FRC Season.
   This year's game is [FIRST Stronghold](http://www.firstinspires.org/sites/default/files/uploads/resource_library/frc/first-stronghold-game-onepage.pdf).
+ 
+##Robot Features
+
+####SubSystems
+
+  + Drive train. 4 PWM Victors, driving AndyMark rhino tracks
+  + Arm. Contains two smaller subsystems: main arm and ballscrew.
+    Main arm controls arm rotation, and ballscrew controls arm length.
+    Run with 1 CAN TalonSRX and 1 encoder each.
+
+####Features
+
+  + BoundBox Algorithm. Ensures the robot never extends 15 inches past frame perimeter or 54 inches above the ground.
+     This is disabled once arm goes pat 85 degrees, as to allow for scaling
+ + 4 working autonomous modes. Low Bar, Ramparts, Moat, and Rough Terrain
+   Auto mode is selected through SmartDashboard; recompiling is not needed.
+ + Xbox Controller is used to drive the robot.

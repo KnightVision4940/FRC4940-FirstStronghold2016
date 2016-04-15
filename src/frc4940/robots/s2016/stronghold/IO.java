@@ -1,3 +1,10 @@
+///////////////////////////////////////////////////////
+// IO.java
+// FRC 4940
+//
+// Class for all Input/Output modules.
+// This includes controllers, limit switches, and subsystems
+///////////////////////////////////////////////////////
 package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
@@ -11,6 +18,7 @@ public class IO {
 	static Arm ballscrew = new Arm(Map.CAN.SECOND_ARM);
 	static TankWheels chassis = new TankWheels();
 	static Timer time = new Timer();
+	
 	/**
 	 * Xbox Controller
 	 */
@@ -82,21 +90,28 @@ public class IO {
 		return xbox.getRawButton(8);
 	}
 	
+	public static void setXboxRumble(float _rumble){
+		xbox.setRumble(Joystick.RumbleType.kLeftRumble, _rumble);
+	}
+	
 	/**
-	 * Digital Inputs
+	 * Limit Switches
 	 */
 	static DigitalInput upperArmLimit = new DigitalInput(Map.Limit.UPPERARMLIMIT);
 	static DigitalInput ballscrewInner = new DigitalInput(Map.Limit.BALLSCREW_INNER_LIMIT);
 	static DigitalInput ballscrewOuter = new DigitalInput(Map.Limit.BALLSCREW_MAX);
 	
+	//**BOTTOM** limit switch so the arm doesn't bottom out
 	public static boolean getArmUpperLimit(){
 		return upperArmLimit.get();
 	}
 	
+	//Prevents ballscrew from retracting too far
 	public static boolean getInnerBallscrewLimit(){
 		return ballscrewInner.get();
 	}
 	
+	//Prevents ballscrew from extending too far
 	public static boolean getOuterBallscrewLimit(){
 		return ballscrewOuter.get();
 	}

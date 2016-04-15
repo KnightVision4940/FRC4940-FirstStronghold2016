@@ -1,3 +1,10 @@
+///////////////////////////////////////////////////////
+// TankWheels.java
+// FRC 4940
+//
+// Subsystem class running the chassis
+// Robot uses AndyMark Rhino Tracks
+///////////////////////////////////////////////////////
 package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.RobotDrive;
 
@@ -7,7 +14,7 @@ public class TankWheels {
 	
 	//Method used to drive robot.
 	//Recommended for use in autonomous
-	public void _driveRobot(double _Speed,double _Turn){
+	public void _driveRobot(double _Speed, double _Turn){
 		Wheels.drive(_Speed, _Turn);
 	}
 	

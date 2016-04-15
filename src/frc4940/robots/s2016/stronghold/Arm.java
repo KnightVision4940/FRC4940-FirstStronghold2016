@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////
+// Arm.java
+// FRC 4940
+//
+// Class for the arm subsystem.
+// Two objects are created of this class in IO.java:
+// One for the main arm moving up and down
+// One for the inner ballscrew extending and retracting the arm length
+///////////////////////////////////////////////////////
 package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.CANTalon;
 
@@ -5,15 +14,6 @@ public class Arm {
 	CANTalon __Arm;
 	Arm(int _CANPort){
 		  __Arm = new CANTalon(_CANPort);
-	}
-	
-	//Sets Encoder to 0 at current position
-	public void initEncoder(){
-		__Arm.setEncPosition(0);
-	}
-
-	public double GetArm(){
-		return __Arm.get();
 	}
 	
 	//sets a velocity for the arm
@@ -32,7 +32,8 @@ public class Arm {
 		}
 	}
 	
-	//gets the current position of the arm from the encoder
+	//gets the current readout from the encoder
+	// Main arm requires offset, which is applied in TeleOp.java
 	public int getArmPosition(){
 		return __Arm.getEncPosition();
 	}
