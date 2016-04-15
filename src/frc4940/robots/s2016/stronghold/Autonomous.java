@@ -1,9 +1,17 @@
+///////////////////////////////////////////////////////
+// Autonomous.java
+// FRC 4940
+//
+// Class for the autonomous modes.
+// Sendable choosers on the SmartDashboard are used to select auto.
+// In theory, there is one auto mode for every defence,
+// but not all routines were tested, and some do not have a routine as a result.
+///////////////////////////////////////////////////////
 package frc4940.robots.s2016.stronghold;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc4940.robots.s2016.stronghold.Map.Auto;
 
 public class Autonomous {
 	//Int storing the selector that determines the auto mode
@@ -27,9 +35,8 @@ public class Autonomous {
         chooser.addObject("Moat", Map.Auto.MOAT);
         chooser.addObject("*Drawbridge", Map.Auto.DRAWBRIDGE);
         chooser.addObject("*Sally Port", Map.Auto.SALLY_PORT);
-        chooser.addObject("Rock Wall", Map.Auto.ROCK_WALL);
+        chooser.addObject("*Rock Wall", Map.Auto.ROCK_WALL);
         chooser.addObject("Rough Terrain", Map.Auto.ROUGH_TERRAIN);
-        chooser.addObject("Test", Map.Auto.TEST_AUTO);
         //I'm pretty sure this is a wrapper for the whole chooser UI in the dashboard
         SmartDashboard.putData("Auto choices", chooser);
         //resets the auto stage
@@ -39,17 +46,12 @@ public class Autonomous {
 	void init(){
 		//gets the selected button from the SmartDashboard, and selects the associated autonomous
     	selectedAuto = (int)chooser.getSelected();
-    	autoStage = 0;
-    	IO.chassis.Wheels.setSafetyEnabled(false);
+    	IO.chassis.Wheels.setSafetyEnabled(false); //This ensures chassis continously runs. Reenabled at end of autonomous
 	}
 	
 	// Run statement, so whatever mode is chosen by name or number, then the robot will use that autonomous 
 	void Run(){
 		/**
-    	 * A switch-case tree is just a fancier if/else tree.
-    	 * It is used when comparing all the possible values of a single variable.
-    	 * You can use this, or just use if/else statements; switch is nicer, but if/else is familiar
-    	 * //////////////////////////////////////////////////////////////////////////////////////
     	 * The below selects the correct autonomous mode based on what the selected autonomous is.
     	**/
 		switch(selectedAuto) {
@@ -59,73 +61,27 @@ public class Autonomous {
 		    			IO.arm.SetArm(-1.0);
 		    		}
 		    		IO.arm.SetArm(0);
-		    		IO.arm.SetArm(0);
 		    		IO.chassis._driveRobot(-0.75, 0);
 					Timer.delay(3);
 					IO.chassis._driveRobot(0, 0);
 		            break;
 	    	
 	    	case Map.Auto.PORTCULLIS:
-	    		while(!IO.getArmUpperLimit()){
-	    			IO.arm.SetArm(-0.9);
-	    		}
-	    		IO.arm.SetArm(0);
-	    		IO.arm.SetArm(0);
-	    		
-	    		IO.chassis._driveRobot(-0.5, 0);
-				Timer.delay(0.6);
-				IO.chassis._driveRobot(0, 0);
-				
-				IO.ballscrew.SetArm(1);
-				Timer.delay(0.75);
-				IO.ballscrew.SetArm(0);
-				
-				int _armPos = IO.arm.getArmPosition();
-				
-				//sets the arm to standard position
-				while(IO.arm.getArmPosition() > _armPos - 52500){
-					IO.arm.SetArm(0.92);
-					System.out.println(_armPos + " | " + IO.arm.getArmPosition());
-				}
-				IO.arm.SetArm(0);
-				
-				IO.chassis._driveRobot(-0.75, 0);
-				Timer.delay(1.75);
-				IO.chassis._driveRobot(0, 0);
+	    		//No routine currently availible
 				break;
 	    	
 	    	case Map.Auto.CHEVAL_DE_FRISE:
-				IO.chassis._driveRobot(0.6, 0);
-				Timer.delay(0.75);
-				Timer.delay(2.25);
-				IO.chassis._driveRobot(0, 0);
-				while(!IO.getArmUpperLimit()){
-					IO.arm.SetArm(-0.6);
-				}
-				IO.arm.SetArm(0);
-				Timer.delay(1);
-				IO.arm.SetArm(1);
-				Timer.delay(1.8);
-				IO.arm.SetArm(0);
-				IO.chassis._driveRobot(0.8, 0);
-				Timer.delay(5);
-				IO.chassis._driveRobot(0, 0);
+	    		//No routine currently availible
     			break;
 	    	
-	    	case Map.Auto.RAMPARTS: //Does not equal 130
-	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
-	    			IO.arm.SetArm(-1.0);
-	    		}
+	    	case Map.Auto.RAMPARTS:
 	    		IO.arm.SetArm(0);
-	    		IO.chassis._driveRobot(-0.5, 0);
+	    		IO.chassis._driveRobot(-0.75, 0);
 				Timer.delay(3);
 				IO.chassis._driveRobot(0, 0);
     			break;
 	    	
-	    	case Map.Auto.MOAT: //Formula will not = to 130 inches
-	    		//while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
-	    		//	IO.arm.SetArm(-1.0);
-	    		//}
+	    	case Map.Auto.MOAT: 
 	    		IO.arm.SetArm(0);
 	    		IO.chassis._driveRobot(-0.75, 0);
 				Timer.delay(3);
@@ -133,64 +89,21 @@ public class Autonomous {
    				break;
 	
 	    	case Map.Auto.DRAWBRIDGE:
-				IO.ballscrew.SetArm(0.95);
-				IO.chassis._driveRobot(1, 0);
-				Timer.delay(0.75);
-				IO.ballscrew.SetArm(0);
-				Timer.delay(0.65);
-				IO.chassis._driveRobot(0, 0);
-				
-				IO.ballscrew.SetArm(-0.9);
-				Timer.delay(0.45);
-				IO.ballscrew.SetArm(0);
-				
-				IO.arm.SetArm(-.95);
-				Timer.delay(2.2);
-				IO.arm.SetArm(0);
-				
-				IO.chassis._driveRobot(-0.455, 0);
-				Timer.delay(0.45);
-				IO.chassis._driveRobot(0, 0);
-				
-				IO.chassis._driveRobot(1, 0);
-				Timer.delay(1.3);
-				IO.chassis._driveRobot(0, 0);
+	    		//No routine currently availible
 	   			break;
 	    	
 	    	case Map.Auto.SALLY_PORT:
-	    		
-    			System.out.println("Sassy Sally");
+	    		//No routine currently availible
     			break;
 	    	
-	    	case Map.Auto.ROCK_WALL: // Wont equal 130
-	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
-	    			IO.arm.SetArm(-1.0);
-	    		}
-	    		IO.arm.SetArm(0);
-	    		IO.chassis._driveRobot(-0.6, 0);
-				Timer.delay(3.4);
-				IO.chassis._driveRobot(0,0);
+	    	case Map.Auto.ROCK_WALL: 
+	    		//No routine currently availible
 				break;
 	    	
 	    	case Map.Auto.ROUGH_TERRAIN: //Wont equal 130
-	    		while (!IO.getArmUpperLimit() || IO.arm.getArmPosition() < -15000){
-	    			IO.arm.SetArm(-1.0);
-	    		}
 	    		IO.arm.SetArm(0);
-	    		IO.chassis._driveRobot(-0.5, 0);
+	    		IO.chassis._driveRobot(-0.75, 0);
 				Timer.delay(3);
-				IO.chassis._driveRobot(0,0);
-            break;
-	    	
-	    	case Map.Auto.TEST_AUTO:
-	    		while(!IO.getArmUpperLimit()){
-	    			IO.arm.SetArm(-0.9);
-	    		}
-	    		IO.arm.SetArm(0);
-	    		IO.arm.SetArm(0);
-	    		
-	    		IO.chassis._driveRobot(-0.5, 0);
-				Timer.delay(0.6);
 				IO.chassis._driveRobot(0, 0);
             break;
 		}

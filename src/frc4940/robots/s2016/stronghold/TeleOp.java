@@ -1,23 +1,23 @@
+///////////////////////////////////////////////////////
+// TeleOp.java
+// FRC 4940
+//
+// TeleOp class
+// Contains all code to be run during teleop
+// Also contains code ensuring arm does not extend too far, preventing any penalties
+///////////////////////////////////////////////////////
 package frc4940.robots.s2016.stronghold;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleOp{
 	/**Variables**/
-	int _zone;
-	//Following three variables for use with Drawbridge preset
-	boolean previousSelect;		//stores the previous state of the Select button
-	boolean currentSelect;		//stores the current state of Select (pressed or not pressed)
-	boolean drawbridgePreset;	//if true, execute drawbridge routine. Routine will cancel once the value returns to false
-	int presetStage;			//Stores the stage of the preset routine; starts and ends at 0, first stage of routine is 1
+	int _zone; //stores which "zone" the main arm is in. Used to prevent over-extension
 	
 	int armEncoder;
 	
 	/**Constructor**/
 	TeleOp(){
 		_zone = 0;
-		previousSelect = false;
-		currentSelect = false;
-		presetStage = 0;
 		armEncoder = 0;
 	}
 	
@@ -44,6 +44,8 @@ public class TeleOp{
 		
 		/**
 		 * Controls movement of arm (up or down)
+		 * Prevents over-extension, and rumbles if driver attempts to go over the length and height limits
+		 * These limits are disabled past 85 degrees from the ground, so to allow scaling of the tower
 		 */
 		if(IO.getArmUpperLimit() && IO.getXboxRightY() < 0){
 			IO.arm.SetArm(0);
@@ -102,27 +104,20 @@ public class TeleOp{
 			IO.setXboxRumble(0);
 		}
 		
-		//runArm_BoundBox();
-		toggleDrawbridgePreset();
-		
 		/**
 		 * DEBUG CODE
 		 * Prints the Arm Angle
 		 * Prints the Arm Lengthb
 		 */
 		SmartDashboard.putNumber("ARM ANGLE", getArmAngle());
-		SmartDashboard.putNumber("ANGLE ENCODER READOUT", armEncoder);
 		SmartDashboard.putNumber("ARM LENGTH", getArmLength());
-		SmartDashboard.putNumber("BALLSCREW ENCODER READOUT", IO.ballscrew.getArmPosition());
 		SmartDashboard.putNumber("MAX LENGTH", getMaxLength(getArmAngle()));
 		SmartDashboard.putNumber("ZONE", getZone());
-		SmartDashboard.putNumber("SWAG LEVELS", 111.2);
 	}
 	
 	/**
 	 * Method is run when test mode is enabled
 	 * Used to calibrate the arm's encoder, and move it to the correct starting position
-	 * NEEDS REWRITING
 	 */
 	public void calibrateArmPosition(){
 		
@@ -143,149 +138,11 @@ public class TeleOp{
 	}
 	
 	/**
-	 * DRAWBRIDGE PRESET
-	 * Press Select to Toggle
-	 * Will automatically deactivate when routine is complete
-	 * Assumes the robot is up against the door of the drawbridge
-	 */
-	public void toggleDrawbridgePreset(){
-		//stores the status of the SELECT button (on/off) from the previous tick (30ms)
-		previousSelect = currentSelect;
-		//stores the current status of the SELECT button (on/off). Next tick, it will be stored in previousSelect
-		currentSelect = IO.getXboxSelect();
-		
-		/**
-		 * Checks if the select button has been pressed between the previous tick and the current tick
-		 * This ensures someone holding the button won't continuously toggle the preset on and off
-		 */
-		if (currentSelect && !previousSelect){
-			//when select is pressed, the preset will either be toggled on or off
-			drawbridgePreset = !drawbridgePreset;
-		}
-	}
-	
-	public void runDrawbridgePreset(){
-		//Routine to be run if toggled on [normally off]
-		
-		//switches through presetStage to check which part of the routine is completed.
-		//essentially allows for blocks in sequential steps, which all individually execute periodically
-		switch(presetStage){
-		case 0:
-			//case 0 is the default stage, and should usually be reserved for a sort of init method
-			IO.time.start();
-			presetStage++; //advances to the next step.
-			break;
-		case 1:
-			if(IO.time.get() < 5){
-				System.out.println("drwbrdge | " + IO.time.get());
-			} else {
-				IO.time.stop();
-				IO.time.reset();
-				presetStage++;
-			}
-			break;
-		case 2:
-			if(IO.time.get() < 7){
-				System.out.println("Stage#2");;
-			} else {
-				presetStage = 0;
-			}
-			break;
-		}
-	}
-	
-	/**
 	 * ARM MAX LIMIT ALGORITHMS
-	 * [aka BoundBox]
+	 * [aka BoundBox Algorithm]
 	 * The following methods are used in the algorithm
 	 * to prevent the arm from exceeding the game rules' outer limits.
 	 */
-	public void runArm_BoundBox_Manual(){
-		if(getZone() == 1){
-			
-		}
-	}
-	public void runArm_BoundBox(){
-		/**
-		 * 1. Get the Angle
-		 * 2. Calculate Maximum possible arm length at current angle
-		 * 3. Check if angle is above or below the bounding box' diagonal
-		 * 4. Restrict movement if arm is too close to Maximum possible arm length
-		 */
-		
-		/**
-		 * ZONE 1
-		 */
-		if(getZone() == 1){
-			if(IO.getXboxRightY() < 0){ //moving down [retract]
-				//retracts the arm
-				if (getArmLength() > getMaxLength(getArmAngle() - 0.5) - 1 && IO.getInnerBallscrewLimit()){ //checks if longer than an inch less than the max length at the angle 1/2 degrees down
-					if (IO.getXboxRightY() < -0.8){
-						IO.ballscrew.SetArm(-1);
-					} else {
-						IO.ballscrew.SetArm(IO.getXboxRightY() * -1.0625);
-					}
-				} else {
-					IO.ballscrew.SetArm(0);
-				}
-			} else if(IO.getXboxRightY() > 0){ //moving up [extend]
-				//extends the arm 
-				if (getArmLength() > getMaxLength(getArmAngle() + 0.5) - 1 && IO.getOuterBallscrewLimit()){
-					if (IO.getXboxRightY() > 0.8){
-						IO.ballscrew.SetArm(1);
-					} else {
-						IO.ballscrew.SetArm(IO.getXboxRightY() * 1.0625);
-					}
-				} else {
-					IO.ballscrew.SetArm(0);
-				}
-			} 
-		}
-		/**
-		 * ZONE 2
-		 */
-		else if(getZone() == 2){
-			if(IO.getXboxRightY() < 0){ //moving down [extend]
-				//extends the arm
-				if (getArmLength() < getMaxLength(getArmAngle() - 0.5) - 1 && IO.getOuterBallscrewLimit()){
-					if (IO.getXboxRightY() < -0.8){
-						IO.ballscrew.SetArm(1);
-					} else {
-						IO.ballscrew.SetArm(IO.getXboxRightY() * 1.0625);
-					}
-				} else {
-					IO.ballscrew.SetArm(0);
-				}
-			} else if(IO.getXboxRightY() > 0){ //moving up [retract]
-				//retracts the arm 
-				if (getArmLength() > getMaxLength(getArmAngle() + 0.5) - 1 && IO.getInnerBallscrewLimit()){
-					if (IO.getXboxRightY() > 0.8){
-						IO.ballscrew.SetArm(-1);
-					} else {
-						IO.ballscrew.SetArm(IO.getXboxRightY() * -1.0625);
-					}
-				} else {
-					IO.ballscrew.SetArm(0);
-				}
-			} 
-		}
-		/**
-		 * ZONE 3
-		 */
-		else if (getZone() == 3){
-			if (getArmLength() > (getMaxLength(Map.BoundBox.ANGLE_ALPHA) - 1)){
-				IO.ballscrew.SetArm(-1);
-			} else {
-				IO.ballscrew.SetArm(0);
-			}
-		}
-		/**
-		 * ZONE 4
-		 */
-		else if(getZone() == 4){
-			IO.ballscrew.SetArm(0);
-		}
-	}
 	
 	public double getArmAngle(){
 		/**
